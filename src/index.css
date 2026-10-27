@@ -109,3 +109,127 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--color-line) transparent;
 }
+
+/* ==========================================================================
+   Glossary Tooltip / Popover (xavdp.pro standard)
+   Hover on desktop, tap on mobile, portal placement above/below
+   ========================================================================== */
+
+.site-glossary-term {
+  border-bottom: 1.5px dashed #0f6b46;
+  border-radius: 4px;
+  cursor: help;
+  display: inline;
+  padding: 0.1em 0.25em;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.theme-dark .site-glossary-term {
+  border-bottom-color: #34d399;
+}
+
+.site-glossary-term:hover,
+.site-glossary-term[data-open='true'] {
+  background-color: rgba(15, 107, 70, 0.12);
+  border-bottom-style: solid;
+}
+
+.theme-dark .site-glossary-term:hover,
+.theme-dark .site-glossary-term[data-open='true'] {
+  background-color: rgba(52, 211, 153, 0.16);
+}
+
+.site-glossary-panel {
+  --glossary-arrow: 8px;
+  animation: site-panel-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  background: #ffffff;
+  border: 1px solid #e3dacb;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.05);
+  isolation: isolate;
+  max-width: min(20rem, calc(100vw - 1.5rem));
+  padding: 0.85rem 1rem 0.95rem;
+  position: fixed;
+  text-align: left;
+  z-index: 9999;
+}
+
+.theme-dark .site-glossary-panel {
+  background: #141f1a;
+  border-color: #26382f;
+  box-shadow: 0 14px 35px -5px rgba(0, 0, 0, 0.6);
+}
+
+.site-glossary-panel::before {
+  background: inherit;
+  border: 1px solid #e3dacb;
+  content: '';
+  height: var(--glossary-arrow);
+  left: var(--glossary-arrow-left, 1.5rem);
+  position: absolute;
+  transform: translateX(-50%) rotate(45deg);
+  width: var(--glossary-arrow);
+}
+
+.theme-dark .site-glossary-panel::before {
+  border-color: #26382f;
+}
+
+.site-glossary-panel[data-placement='below']::before {
+  border-bottom: none;
+  border-right: none;
+  top: calc(var(--glossary-arrow) * -0.55);
+}
+
+.site-glossary-panel[data-placement='above']::before {
+  border-left: none;
+  border-top: none;
+  bottom: calc(var(--glossary-arrow) * -0.55);
+}
+
+.site-glossary-panel__label {
+  color: #0f6b46;
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0 0 0.25rem;
+}
+
+.theme-dark .site-glossary-panel__label {
+  color: #34d399;
+}
+
+.site-glossary-panel__sub {
+  color: #b4562c;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.site-glossary-panel__body {
+  color: #374151;
+  font-size: 0.825rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.theme-dark .site-glossary-panel__body {
+  color: #d1d5db;
+}
+
+@keyframes site-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

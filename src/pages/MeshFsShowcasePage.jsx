@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef, useId } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   HardDrive,
@@ -27,6 +28,164 @@ import LanguageSwitcher from '../components/LanguageSwitcher'
 import ThemeToggle from '../components/ui/ThemeToggle'
 import { clarificationGlossary, meshfsContent } from '../data/meshfsPageContent'
 
+// Place panel calculation exactly as on xavdp.pro
+function placePanel(box) {
+  const width = Math.min(290, window.innerWidth - 24)
+  const gap = 10
+  const estimate = 160
+  const centerX = box.left + box.width / 2
+
+  let left = centerX - width / 2
+  left = Math.max(12, Math.min(left, window.innerWidth - width - 12))
+
+  const arrowLeft = Math.max(18, Math.min(width - 18, centerX - left))
+  const spaceAbove = box.top
+  const spaceBelow = window.innerHeight - box.bottom
+  const below = spaceAbove < estimate + 28 && spaceBelow > spaceAbove
+
+  if (below) {
+    return {
+      top: box.bottom + gap,
+      bottom: 'auto',
+      left,
+      width,
+      arrowLeft,
+      placement: 'below',
+    }
+  }
+
+  return {
+    top: 'auto',
+    bottom: window.innerHeight - box.top + gap,
+    left,
+    width,
+    arrowLeft,
+    placement: 'above',
+  }
+}
+
+// Term component strictly matching xavdp.pro (hover on desktop with grace timer, tap on mobile, portal)
+function ClarifiedTerm({ termKey, children, glossary, enabled }) {
+  const item = glossary[termKey]
+  const [open, setOpen] = useState(false)
+  const [place, setPlace] = useState(null)
+  const triggerRef = useRef(null)
+  const panelRef = useRef(null)
+  const closeTimer = useRef(0)
+  const lastPointer = useRef('mouse')
+  const id = useId()
+
+  const close = () => {
+    window.clearTimeout(closeTimer.current)
+    setOpen(false)
+  }
+
+  const scheduleClose = () => {
+    window.clearTimeout(closeTimer.current)
+    closeTimer.current = window.setTimeout(() => setOpen(false), 220)
+  }
+
+  const cancelClose = () => window.clearTimeout(closeTimer.current)
+
+  const reveal = () => {
+    if (!enabled) return
+    cancelClose()
+    const box = triggerRef.current?.getBoundingClientRect()
+    if (!box) return
+    setPlace(placePanel(box))
+    setOpen(true)
+  }
+
+  useEffect(() => {
+    if (!open) return undefined
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') close()
+    }
+    const onPointerDown = (event) => {
+      const t = event.target
+      if (triggerRef.current?.contains(t) || panelRef.current?.contains(t)) return
+      close()
+    }
+    const onScroll = () => close()
+    document.addEventListener('keydown', onKeyDown)
+    document.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('scroll', onScroll, { passive: true, capture: true })
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('scroll', onScroll, { capture: true })
+    }
+  }, [open])
+
+  if (!item) return <>{children}</>
+
+  const rememberPointer = (event) => {
+    lastPointer.current = event.pointerType || 'mouse'
+  }
+
+  const onTap = (event) => {
+    if (!enabled) return
+    event.preventDefault()
+    event.stopPropagation()
+    if (lastPointer.current === 'mouse') return
+    if (open) close()
+    else reveal()
+  }
+
+  return (
+    <span className="relative inline">
+      <span
+        ref={triggerRef}
+        role="button"
+        tabIndex={0}
+        data-open={open ? 'true' : undefined}
+        onPointerDown={rememberPointer}
+        onClick={onTap}
+        onKeyDown={(event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return
+          event.preventDefault()
+          if (open) close()
+          else reveal()
+        }}
+        onMouseEnter={reveal}
+        onMouseLeave={scheduleClose}
+        aria-expanded={open}
+        aria-describedby={open ? id : undefined}
+        className={enabled ? 'site-glossary-term' : 'font-semibold'}
+      >
+        {children}
+      </span>
+
+      {open && place && typeof document !== 'undefined'
+        ? createPortal(
+            <div
+              ref={panelRef}
+              id={id}
+              role="tooltip"
+              data-placement={place.placement}
+              onClick={(event) => event.stopPropagation()}
+              onMouseEnter={cancelClose}
+              onMouseLeave={scheduleClose}
+              style={{
+                top: place.top,
+                bottom: place.bottom,
+                left: place.left,
+                width: place.width,
+                '--glossary-arrow-left': `${place.arrowLeft}px`,
+              }}
+              className="site-glossary-panel"
+            >
+              <p className="site-glossary-panel__label">{item.term}</p>
+              <p className="site-glossary-panel__sub">{item.short}</p>
+              <p className="site-glossary-panel__body">{item.desc}</p>
+            </div>,
+            document.body
+          )
+        : null}
+    </span>
+  )
+}
+
 export default function MeshFsShowcasePage() {
   const { locale } = useI18n()
   const content = meshfsContent[locale] || meshfsContent.fr
@@ -35,8 +194,6 @@ export default function MeshFsShowcasePage() {
   const [clarificationMode, setClarificationMode] = useState(true)
   const [activeAudience, setActiveAudience] = useState('human') // 'human' | 'geek' | 'agent'
   const [copiedIndex, setCopiedIndex] = useState(null)
-  const [activeGlossaryTerm, setActiveGlossaryTerm] = useState(null)
-  const [activeSection, setActiveSection] = useState('hero')
 
   const copyToClipboard = (text, index) => {
     navigator.clipboard.writeText(text)
@@ -44,54 +201,11 @@ export default function MeshFsShowcasePage() {
     setTimeout(() => setCopiedIndex(null), 2000)
   }
 
-  // Interactive Term Pill with Didactic Tooltip
-  const ClarifiedTerm = ({ termKey, children }) => {
-    const item = glossary[termKey]
-    if (!item) return <>{children}</>
-
-    return (
-      <span className="relative inline-block">
-        <button
-          type="button"
-          onClick={() => setActiveGlossaryTerm(activeGlossaryTerm === termKey ? null : termKey)}
-          className={`inline-flex items-center gap-1 font-semibold transition-all px-1.5 py-0.5 rounded cursor-pointer ${
-            clarificationMode
-              ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 underline decoration-emerald-500/60 decoration-dashed underline-offset-4 hover:bg-emerald-100 dark:hover:bg-emerald-900/60'
-              : 'text-inherit'
-          }`}
-          title={clarificationMode ? `${item.term}: ${item.short}` : undefined}
-        >
-          {children}
-          {clarificationMode && <HelpCircle className="w-3.5 h-3.5 opacity-70" />}
-        </button>
-
-        {/* Tooltip Modal / Dropdown */}
-        <AnimatePresence>
-          {activeGlossaryTerm === termKey && (
-            <motion.div
-              initial={{ opacity: 0, y: 6, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 6, scale: 0.95 }}
-              className="absolute z-50 left-0 bottom-full mb-2 w-72 sm:w-80 p-3.5 rounded-xl bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-2xl border border-stone-200 dark:border-stone-800 text-xs text-left"
-            >
-              <div className="flex items-center justify-between pb-1.5 border-b border-stone-100 dark:border-stone-800 font-bold text-emerald-600 dark:text-emerald-400">
-                <span>{item.term}</span>
-                <button
-                  type="button"
-                  onClick={() => setActiveGlossaryTerm(null)}
-                  className="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 text-sm leading-none"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="mt-1.5 font-medium text-stone-700 dark:text-stone-300">{item.short}</p>
-              <p className="mt-1 text-stone-500 dark:text-stone-400 leading-relaxed">{item.desc}</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </span>
-    )
-  }
+  const Term = ({ k, children }) => (
+    <ClarifiedTerm termKey={k} glossary={glossary} enabled={clarificationMode}>
+      {children}
+    </ClarifiedTerm>
+  )
 
   return (
     <div className="min-h-screen bg-[#faf7f2] dark:bg-[#0c1512] text-[#10231b] dark:text-[#eef4ef] font-sans antialiased transition-colors duration-200 selection:bg-emerald-500/20 selection:text-emerald-700 dark:selection:text-emerald-300">
@@ -278,19 +392,19 @@ export default function MeshFsShowcasePage() {
                       </span>
                       {pt.title.includes('SPOF') ? (
                         <span>
-                          Zéro Serveur Central (<ClarifiedTerm termKey="spof">SPOF</ClarifiedTerm>)
+                          Zéro Serveur Central (<Term k="spof">SPOF</Term>)
                         </span>
                       ) : pt.title.includes('Déduplication') ? (
                         <span>
-                          <ClarifiedTerm termKey="cas">Déduplication</ClarifiedTerm> Instantanée
+                          <Term k="cas">Déduplication</Term> Instantanée
                         </span>
                       ) : pt.title.includes('Clé USB') ? (
                         <span>
-                          Montable via <ClarifiedTerm termKey="fuse">FUSE</ClarifiedTerm>
+                          Montable via <Term k="fuse">FUSE</Term>
                         </span>
                       ) : (
                         <span>
-                          <ClarifiedTerm termKey="selfhealing">Auto-guérison</ClarifiedTerm> Silencieuse
+                          <Term k="selfhealing">Auto-guérison</Term> Silencieuse
                         </span>
                       )}
                     </h3>
