@@ -1,5 +1,8 @@
 # Agents — Working Rules for `podmesh-docs`
 
+> **🤖 AI-First Infrastructure Principle**:
+> All installation, bootstrap, and configuration of PodMesh and its storage/backup satellites (`podmesh`, `podmesh-meshfs`, `podmesh-pmbs`, `podmesh-pve-plugin`, `podmesh-installer`) are **100% AI-First and headless** (CLI, Unix Domain Sockets, JSON contracts — see `AI_INSTALL_AND_CONFIG.md` in each repository). `podmesh-docs` is a read-only public documentation portal (`podmesh.xavdp.pro`, `meshfs.xavdp.pro`, `pmbs.xavdp.pro`).
+
 Every agent (Antigravity, Claude Code, Codex, Cursor) contributing to `podmesh-docs` follows this repository split and public hygiene contract. Dialogue with the operator is French; everything committed into the repository is English (`en-US`) alongside the localized i18n dictionaries (`fr`, `en`, `es`).
 
 ## Repository Split
