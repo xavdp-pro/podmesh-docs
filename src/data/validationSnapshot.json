@@ -1,0 +1,1302 @@
+{
+  "schema": 2,
+  "updatedAt": "2026-10-24",
+  "metric": "validated_essential_criteria_coverage",
+  "formula": "round(100 * count(status == validated) / count(criteria))",
+  "productionQualified": false,
+  "features": [
+    {
+      "id": "lifecycle",
+      "name": {
+        "fr": "Cycle de vie PodMesh",
+        "en": "PodMesh lifecycle",
+        "es": "Ciclo de vida PodMesh"
+      },
+      "scope": {
+        "fr": "NODE et manager · MariaDB privée",
+        "en": "NODE and manager · private MariaDB",
+        "es": "NODE y manager · MariaDB privada"
+      },
+      "state": {
+        "fr": "Transfert logique et adoption vérifiés en laboratoire",
+        "en": "Logical transfer and adoption verified in laboratory",
+        "es": "Traslado lógico y adopción verificados en laboratorio"
+      },
+      "intro": {
+        "fr": "Créer, arrêter et retrouver une application avec son journal et ses données.",
+        "en": "Create, stop and recover an application with its journal and data.",
+        "es": "Crear, parar y recuperar una aplicación con su registro y datos."
+      },
+      "remaining": {
+        "fr": "Transfert à froid depuis la source scellée vérifié dans ce périmètre. Restent réplication complète des univers, reprise interrompue, redémarrage réel de l’hôte et exploitation de production. Aucune HA, exclusion distribuée, migration de RAM ou bascule automatique qualifiée.",
+        "en": "Cold transfer from the sealed source verified in this scope. Full universe replication, interrupted recovery, actual host reboot and production operations remain. No HA, distributed fencing, RAM migration or automatic failover qualification.",
+        "es": "Transferencia en frío desde fuente sellada verificada en este alcance. Quedan replicación completa de universos, recuperación interrumpida, reinicio real del host y producción. Sin validar HA, exclusión distribuida, migración de RAM ni conmutación automática."
+      },
+      "checks": [
+        {
+          "id": "private-db",
+          "status": "validated",
+          "label": {
+            "fr": "Unités isolées avec une vraie MariaDB privée",
+            "en": "Isolated units with real private MariaDB",
+            "es": "Unidades aisladas con MariaDB privada real"
+          },
+          "proof": "node-common"
+        },
+        {
+          "id": "operations",
+          "status": "validated",
+          "label": {
+            "fr": "Opérations, identité et rejeu sans double effet",
+            "en": "Operations, identity and replay without duplicate effects",
+            "es": "Operaciones, identidad y reejecución sin duplicar efectos"
+          },
+          "proof": "node-common"
+        },
+        {
+          "id": "stop-restart",
+          "status": "validated",
+          "label": {
+            "fr": "Arrêt propre et redémarrage avec état conservé",
+            "en": "Clean stop and restart with preserved state",
+            "es": "Parada y reinicio limpios con estado conservado"
+          },
+          "proof": "node-confirmation"
+        },
+        {
+          "id": "flat-restore",
+          "status": "validated",
+          "label": {
+            "fr": "Restauration complète du NODE simple et reprise utile",
+            "en": "Full flat NODE restore and useful recovery",
+            "es": "Restauración completa del NODE simple y recuperación útil"
+          },
+          "proof": "node-common"
+        },
+        {
+          "id": "nested-restore",
+          "status": "validated",
+          "label": {
+            "fr": "Restauration imbriquée : identités, fichiers et journaux",
+            "en": "Nested restore: identities, files and journals",
+            "es": "Restauración anidada: identidades, archivos y registros"
+          },
+          "proof": "node-common"
+        },
+        {
+          "id": "manager-restore",
+          "status": "validated",
+          "label": {
+            "fr": "Journal du manager et restauration native utiles",
+            "en": "Manager journal and useful native restore",
+            "es": "Registro del manager y restauración nativa útil"
+          },
+          "proof": "manager-native"
+        },
+        {
+          "id": "rollback",
+          "status": "validated",
+          "label": {
+            "fr": "Retour arrière et conservation des services d’origine",
+            "en": "Rollback and preservation of original services",
+            "es": "Reversión y conservación de servicios originales"
+          },
+          "proof": "node-common"
+        },
+        {
+          "id": "host-reboot",
+          "status": "unverified",
+          "label": {
+            "fr": "Retour des services après redémarrage réel de l’hôte",
+            "en": "Service recovery after a real host reboot",
+            "es": "Recuperación de servicios tras reinicio real del host"
+          },
+          "proof": null
+        }
+      ],
+      "qualificationLabel": {
+        "fr": "Socle MariaDB · laboratoire",
+        "en": "MariaDB baseline · laboratory",
+        "es": "Base MariaDB · laboratorio"
+      },
+      "labSummary": {
+        "fr": "Un export SQL cohérent est restauré dans une base privée indépendante et vide sur le même hôte. Les 5 tables, leurs 10 lignes et les 8 déclencheurs sont comparés intégralement avant utilisation ; aucune routine ni aucun événement présents. Après recréation, les 4 faits d’origine sont identiques, puis un cinquième est écrit et relu. UUID et configuration conservés ; identifiants SQL propres à la cible régénérés. Aucun fichier applicatif durable présent dans ce jeu. Source et cible arrêtées proprement, existant contrôlé préservé. Petit essai local : pas de déplacement interhôtes du manager, réplication, volumes arbitraires ou production qualifiés. Deux managers sur le même hôte ont aussi répliqué deux faits dans les deux sens, sans doublon. La réplication entre deux VM et la recréation propre d’un pair sont aussi vérifiées sur trois faits. La commande native NODE est aussi vérifiée avec 40 tables, un témoin, les quatre répertoires vides et une nouvelle écriture conservée après recréation. Le transfert du NODE avec partitions mensuelles du journal est également vérifié après recréation. La maintenance root du journal mensuel sur copie restaurée conserve aussi les lignes et le rejeu métier après recréation. Un scellement durable de la source refuse aussi les démarrages normal et de récupération sans changer ses données. La restauration depuis la source scellée conserve 40 tables, fichiers et répertoires, puis permet écritures, antirejeu et recréation ordinaire sur la nouvelle cible.",
+        "en": "A coherent SQL export is restored into an independent empty private database on the same host. All 5 tables, their 10 rows and 8 triggers match before use; no routines or events were present. After recreation, the 4 original facts remain identical, then a fifth is written and read. UUID and configuration retained; target-specific SQL credentials regenerated. No durable application payload file was present in this fixture. Source and target stopped cleanly, checked originals preserved. Small local test: no qualified cross-host manager move, replication, arbitrary volumes or production. Two managers on the same host also replicated two facts in both directions without duplicates. Two-VM replication and clean peer recreation are also verified with three facts. The native NODE command is also verified with 40 tables, a marker, four empty directories and a new write retained after recreation. NODE transfer with monthly journal partitions is also verified after recreation. Root monthly-journal maintenance on a restored copy also retains rows and business replay after recreation. A durable source seal also refuses ordinary and recovery startup without changing its data. Restoration from the sealed source preserves 40 tables, files and directories, followed by writes, replay protection and ordinary target recreation.",
+        "es": "Una exportación SQL coherente se restaura en una base privada independiente y vacía del mismo host. Las 5 tablas, sus 10 filas y 8 disparadores coinciden íntegramente antes del uso; no había rutinas ni eventos. Tras recreación, los 4 hechos originales permanecen idénticos y se escribe y lee un quinto. UUID y configuración conservados; credenciales SQL propias del destino regeneradas. Sin archivos aplicativos duraderos en este ensayo. Fuente y destino parados limpiamente, originales comprobados preservados. Pequeño ensayo local: sin validar traslado del manager entre hosts, replicación, volúmenes arbitrarios ni producción. Dos managers en el mismo host también replicaron dos hechos en ambos sentidos sin duplicados. También se verifican la replicación entre dos VM y la recreación limpia de un par con tres hechos. También se verifica el comando NODE nativo con 40 tablas, un testigo, cuatro directorios vacíos y una nueva escritura conservada tras recreación. También se verifica tras recreación el traslado NODE con particiones mensuales del diario. El mantenimiento root del diario mensual en copia restaurada también conserva filas y repetición de negocio tras recreación. Un sello duradero de fuente también rechaza arranques normal y de recuperación sin cambiar sus datos. La restauración desde la fuente sellada conserva 40 tablas, archivos y directorios, seguida de escrituras, protección contra repetición y recreación normal del destino."
+      },
+      "labProofs": [
+        "node-common",
+        "manager-native",
+        "canonical-node-persistence",
+        "canonical-process-recovery",
+        "canonical-manager-persistence",
+        "canonical-manager-process-recovery",
+        "canonical-manager-logical-restore",
+        "canonical-manager-peer-replication",
+        "canonical-manager-crossvm-rejoin",
+        "canonical-node-transfer-command",
+        "canonical-monthly-node-transfer",
+        "canonical-monthly-maintenance",
+        "canonical-local-source-seal",
+        "canonical-sealed-source-target-restore"
+      ],
+      "qualificationNote": {
+        "fr": "7/8 conserve le dénominateur du socle historique. Les nouveaux essais NODE canonique sont des preuves distinctes : une recréation propre et une reprise explicite après crash, pas une qualification globale, un redémarrage d’hôte ou des mois d’endurance.",
+        "en": "7/8 retains the historical baseline denominator. New canonical NODE tests are separate evidence: one clean recreation and one explicit crash recovery, not overall qualification, host reboot or months of endurance.",
+        "es": "7/8 conserva el denominador de la base histórica. Los nuevos ensayos del NODE canónico son pruebas separadas: una recreación limpia y una recuperación explícita tras fallo, no validación global, reinicio del host ni meses de resistencia."
+      }
+    },
+    {
+      "id": "move",
+      "name": {
+        "fr": "Déplacement et réplication",
+        "en": "Move and replication",
+        "es": "Traslado y replicación"
+      },
+      "scope": {
+        "fr": "Périmètre de production avec MariaDB privée",
+        "en": "Production target with private MariaDB",
+        "es": "Objetivo de producción con MariaDB privada"
+      },
+      "state": {
+        "fr": "Transfert logique et adoption vérifiés en laboratoire",
+        "en": "Logical transfer and adoption verified in laboratory",
+        "es": "Traslado lógico y adopción verificados en laboratorio"
+      },
+      "intro": {
+        "fr": "Déplacer l’univers ou préparer sa reprise sur un autre hôte.",
+        "en": "Move a universe or prepare its recovery on another host.",
+        "es": "Trasladar un universo o preparar su recuperación en otro host."
+      },
+      "remaining": {
+        "fr": "Transfert à froid depuis la source scellée vérifié dans ce périmètre. Restent réplication complète des univers, reprise interrompue, redémarrage réel de l’hôte et exploitation de production. Aucune HA, exclusion distribuée, migration de RAM ou bascule automatique qualifiée.",
+        "en": "Cold transfer from the sealed source verified in this scope. Full universe replication, interrupted recovery, actual host reboot and production operations remain. No HA, distributed fencing, RAM migration or automatic failover qualification.",
+        "es": "Transferencia en frío desde fuente sellada verificada en este alcance. Quedan replicación completa de universos, recuperación interrumpida, reinicio real del host y producción. Sin validar HA, exclusión distribuida, migración de RAM ni conmutación automática."
+      },
+      "checks": [
+        {
+          "id": "preflight",
+          "status": "validated",
+          "label": {
+            "fr": "Précontrôle hôte source typé, réellement en lecture seule",
+            "en": "Typed, genuinely read-only source-host preflight",
+            "es": "Comprobación tipada del host de origen realmente de solo lectura"
+          },
+          "proof": "move-mariadb-readonly"
+        },
+        {
+          "id": "planned-move",
+          "status": "blocked",
+          "label": {
+            "fr": "Déplacement planifié avec identité et données conservées",
+            "en": "Planned move preserving identity and data",
+            "es": "Traslado planificado conservando identidad y datos"
+          },
+          "proof": "move-gap"
+        },
+        {
+          "id": "recovery-point",
+          "status": "blocked",
+          "label": {
+            "fr": "Point de reprise et bascule planifiée sur MariaDB",
+            "en": "MariaDB recovery point and planned switchover",
+            "es": "Punto de recuperación y cambio planificado con MariaDB"
+          },
+          "proof": "move-gap"
+        },
+        {
+          "id": "nested-move",
+          "status": "unverified",
+          "label": {
+            "fr": "Continuité de l’univers imbriqué après déplacement MariaDB",
+            "en": "Nested-universe continuity after a MariaDB-backed move",
+            "es": "Continuidad del universo anidado tras traslado con MariaDB"
+          },
+          "proof": "move-gap"
+        }
+      ],
+      "qualificationLabel": {
+        "fr": "Précontrôle MariaDB · laboratoire",
+        "en": "MariaDB preflight · laboratory",
+        "es": "Precontrol MariaDB · laboratorio"
+      },
+      "labSummary": {
+        "fr": "Un NODE neuf construit son seul journal observations en partitions mensuelles UTC. Un export cohérent de 40 tables et 9 lignes, un témoin et quatre répertoires vides est restauré dans une autre VM ; catalogue des partitions, clé et schéma sont conservés après recréation ordinaire. L’adoption ajoute une ligne d’audit (10 lignes). Une requête applicative vers une identité de qualification absente est rejouée sans nouvel effet métier ; une seconde requête sur la cible survit à une nouvelle recréation. Six conteneurs arrêtés proprement, périmètre préexistant suivi préservé. Même hyperviseur : pas de déplacement de charge réelle, réorganisation de partitions peuplées, réplication continue, HA ou qualification production. La maintenance root du journal mensuel sur copie restaurée conserve aussi les lignes et le rejeu métier après recréation. Un scellement durable de la source refuse aussi les démarrages normal et de récupération sans changer ses données. La restauration depuis la source scellée conserve 40 tables, fichiers et répertoires, puis permet écritures, antirejeu et recréation ordinaire sur la nouvelle cible.",
+        "en": "A fresh NODE constructs only its observations journal in monthly UTC partitions. A coherent export of 40 tables and 9 rows, a marker and four empty directories is restored into another VM; partition catalog, key and schema survive ordinary recreation. Adoption adds one audit row (10 rows). An application request targeting an absent qualification identity replays without a new business effect; a second target request survives another recreation. Six containers stopped cleanly and tracked originals preserved. Same hypervisor: no real workload move, populated-partition reorganization, continuous replication, HA or production qualification. Root monthly-journal maintenance on a restored copy also retains rows and business replay after recreation. A durable source seal also refuses ordinary and recovery startup without changing its data. Restoration from the sealed source preserves 40 tables, files and directories, followed by writes, replay protection and ordinary target recreation.",
+        "es": "Un NODE nuevo crea únicamente su diario observations en particiones mensuales UTC. Una exportación coherente de 40 tablas y 9 filas, un testigo y cuatro directorios vacíos se restaura en otra VM; catálogo, clave y esquema de particiones sobreviven a la recreación normal. La adopción añade una fila de auditoría (10 filas). Una petición aplicativa a una identidad de ensayo ausente se repite sin nuevo efecto de negocio; una segunda petición en destino sobrevive a otra recreación. Seis contenedores parados limpiamente, originales seguidos preservados. Mismo hipervisor: sin traslado de carga real, reorganización de particiones pobladas, replicación continua, HA ni validación de producción. El mantenimiento root del diario mensual en copia restaurada también conserva filas y repetición de negocio tras recreación. Un sello duradero de fuente también rechaza arranques normal y de recuperación sin cambiar sus datos. La restauración desde la fuente sellada conserva 40 tablas, archivos y directorios, seguida de escrituras, protección contra repetición y recreación normal del destino."
+      },
+      "labProofs": [
+        "move-mariadb-readonly",
+        "move-lab",
+        "replication-lab",
+        "canonical-sql-transfer",
+        "canonical-crosshost-adoption",
+        "canonical-node-transfer-command",
+        "canonical-monthly-node-transfer",
+        "canonical-monthly-maintenance",
+        "canonical-local-source-seal",
+        "canonical-sealed-source-target-restore"
+      ],
+      "qualificationNote": {
+        "fr": "1/4 reste le précontrôle du parcours de déplacement ; la copie SQL seule ne valide pas le déplacement complet ni la réplication. Les acquis SQLite restent acquis dans leur périmètre.",
+        "en": "1/4 remains the move-path preflight; SQL copy alone does not qualify a complete move or replication. SQLite achievements remain valid within scope.",
+        "es": "1/4 sigue siendo la comprobación previa del traslado; la copia SQL sola no valida un traslado completo ni la replicación. Los logros SQLite siguen válidos en su ámbito."
+      }
+    },
+    {
+      "id": "meshfs",
+      "name": {
+        "fr": "MeshFS",
+        "en": "MeshFS",
+        "es": "MeshFS"
+      },
+      "scope": {
+        "fr": "Système de fichiers distribué · preuves par version",
+        "en": "Distributed filesystem · version-specific proofs",
+        "es": "Sistema de archivos distribuido · pruebas por versión"
+      },
+      "state": {
+        "fr": "Blocage : délais d’écriture",
+        "en": "Blocker: write deadlines",
+        "es": "Bloqueo: plazos de escritura"
+      },
+      "intro": {
+        "fr": "Conserver des copies cohérentes et récupérer ce qu’un nœud a manqué.",
+        "en": "Keep consistent copies and recover changes missed by a node.",
+        "es": "Mantener copias coherentes y recuperar cambios perdidos por un nodo."
+      },
+      "remaining": {
+        "fr": "Les délais de trois secondes ne sont pas résolus. La consolidation du stockage de métadonnées vers MariaDB reste un chantier distinct.",
+        "en": "Three-second deadline failures remain unresolved. Consolidating metadata storage on MariaDB is a separate unfinished task.",
+        "es": "Los fallos del plazo de tres segundos siguen abiertos. Consolidar los metadatos en MariaDB es un trabajo pendiente separado."
+      },
+      "checks": [
+        {
+          "id": "replication",
+          "status": "validated",
+          "label": {
+            "fr": "Contenus cohérents contrôlés sur trois répliques",
+            "en": "Consistent payloads checked across three replicas",
+            "es": "Contenidos coherentes verificados en tres réplicas"
+          },
+          "proof": "mesh-recovery"
+        },
+        {
+          "id": "replay-bounds",
+          "status": "validated",
+          "label": {
+            "fr": "Anciens rejeux refusés et métadonnées bornées",
+            "en": "Stale replays refused and metadata bounded",
+            "es": "Reejecuciones antiguas rechazadas y metadatos acotados"
+          },
+          "proof": "mesh-replay"
+        },
+        {
+          "id": "empty-replica",
+          "status": "validated",
+          "label": {
+            "fr": "Rattrapage d’une réplique vide dans le périmètre testé",
+            "en": "Empty-replica catch-up within the tested scope",
+            "es": "Recuperación de una réplica vacía en el ámbito probado"
+          },
+          "proof": "mesh-empty"
+        },
+        {
+          "id": "abrupt-recovery",
+          "status": "validated",
+          "label": {
+            "fr": "Réouverture après arrêt brutal et nouvelle écriture",
+            "en": "Reopen after abrupt stop and a new write",
+            "es": "Reapertura tras parada abrupta y nueva escritura"
+          },
+          "proof": "mesh-recovery"
+        },
+        {
+          "id": "actual-ingestion",
+          "status": "validated",
+          "label": {
+            "fr": "262 144 blocs réellement ingérés sur le labo secondaire",
+            "en": "262,144 blocks actually ingested in the secondary lab",
+            "es": "262 144 bloques realmente ingeridos en el segundo laboratorio"
+          },
+          "proof": "mesh-ingestion"
+        },
+        {
+          "id": "write-deadlines",
+          "status": "blocked",
+          "label": {
+            "fr": "Écritures sous charge sans résultats incertains à trois secondes",
+            "en": "Loaded writes without uncertain three-second outcomes",
+            "es": "Escrituras bajo carga sin resultados inciertos a tres segundos"
+          },
+          "proof": "mesh-latency"
+        },
+        {
+          "id": "production-backend",
+          "status": "unverified",
+          "label": {
+            "fr": "Consolidation MariaDB et rétention pour la production",
+            "en": "Production MariaDB consolidation and retention",
+            "es": "Consolidación MariaDB y retención para producción"
+          },
+          "proof": null
+        }
+      ],
+      "qualificationLabel": {
+        "fr": "Critères suivis · versions testées",
+        "en": "Tracked criteria · tested versions",
+        "es": "Criterios seguidos · versiones probadas"
+      },
+      "labSummary": {
+        "fr": "Des contenus identiques sur trois répliques, le rattrapage d’une réplique vide et la reprise après arrêt brutal sont démontrés dans les versions indiquées. La protection contre les anciens rejeux et l’ingestion réelle de 262 144 blocs sont également acquises dans leur périmètre.",
+        "en": "Matching payloads across three replicas, empty-replica catch-up and recovery after abrupt stop are demonstrated for the stated versions. Stale-replay protection and actual ingestion of 262,144 blocks are also established within their scope.",
+        "es": "Se demostraron contenidos idénticos en tres réplicas, recuperación de una réplica vacía y vuelta tras una parada abrupta en las versiones indicadas. También se probaron la protección frente a reejecuciones antiguas y la ingesta real de 262 144 bloques en su ámbito."
+      },
+      "labProofs": [
+        "mesh-recovery",
+        "mesh-empty",
+        "mesh-ingestion"
+      ]
+    },
+    {
+      "id": "pmbs",
+      "name": {
+        "fr": "PMBS · sauvegarde et restauration",
+        "en": "PMBS · backup and restore",
+        "es": "PMBS · copia y restauración"
+      },
+      "scope": {
+        "fr": "Conteneur Podman · contenus réguliers · configuration bornée",
+        "en": "Podman container · regular contents · bounded configuration",
+        "es": "Contenedor Podman · contenidos normales · configuración acotada"
+      },
+      "state": {
+        "fr": "Sauvegarde et restauration natives démontrées dans ce périmètre",
+        "en": "Native backup and restore demonstrated within this scope",
+        "es": "Copia y restauración nativas demostradas en este ámbito"
+      },
+      "intro": {
+        "fr": "Retrouver l’image, la configuration et les données, puis refaire fonctionner l’application.",
+        "en": "Recover image, configuration and data, then run the application again.",
+        "es": "Recuperar imagen, configuración y datos, y volver a ejecutar la aplicación."
+      },
+      "remaining": {
+        "fr": "La capture native et la restauration des contenus réguliers sont démontrées sur une entrée mise au repos. La restitution des attributs et la reprise cohérente d’un univers complet avec ses bases MariaDB privées restent à qualifier. Le test utilise du HTTP en loopback ; il ne démontre pas une reprise distante ni la cohérence d’une base en activité.",
+        "en": "Native capture and regular-content restoration are demonstrated for quiesced input. File-attribute fidelity and consistent recovery of a complete universe with private MariaDB stores remain unqualified. This test uses loopback HTTP; it does not demonstrate remote recovery or consistency of a running database.",
+        "es": "La captura nativa y la restauración de contenidos normales se demostraron con una entrada en reposo. Falta validar atributos y recuperación coherente de un universo completo con MariaDB privada. El ensayo usa HTTP loopback; no demuestra recuperación remota ni coherencia de una base activa."
+      },
+      "checks": [
+        {
+          "id": "api-policy",
+          "status": "validated",
+          "label": {
+            "fr": "Manifestes, chemins et accès API contrôlés",
+            "en": "Checked manifests, paths and API access",
+            "es": "Manifiestos, rutas y acceso API comprobados"
+          },
+          "proof": "pmbs-policy"
+        },
+        {
+          "id": "backup-persistence",
+          "status": "validated",
+          "label": {
+            "fr": "Sauvegarde authentifiée et manifeste conservé après redémarrage",
+            "en": "Authenticated backup and manifest surviving restart",
+            "es": "Copia autenticada y manifiesto conservado tras reiniciar"
+          },
+          "proof": "pmbs-data"
+        },
+        {
+          "id": "server-index",
+          "status": "validated",
+          "label": {
+            "fr": "Index et contenus récupérés depuis le serveur, sans manifeste client",
+            "en": "Index and payloads recovered from server without client manifest",
+            "es": "Índice y contenidos del servidor sin manifiesto cliente"
+          },
+          "proof": "pmbs-server"
+        },
+        {
+          "id": "empty-image-store",
+          "status": "validated",
+          "label": {
+            "fr": "Image et configuration récupérées dans un magasin Podman vide",
+            "en": "Image and configuration recovered into an empty Podman store",
+            "es": "Imagen y configuración recuperadas en almacén Podman vacío"
+          },
+          "proof": "pmbs-server"
+        },
+        {
+          "id": "useful-restored-app",
+          "status": "validated",
+          "label": {
+            "fr": "Application restaurée : lecture et nouvelle écriture synchronisée",
+            "en": "Restored application: reads and a new synced write",
+            "es": "Aplicación restaurada: lectura y nueva escritura sincronizada"
+          },
+          "proof": "pmbs-server"
+        },
+        {
+          "id": "file-attributes",
+          "status": "unverified",
+          "label": {
+            "fr": "Fidélité des permissions, propriétaires et attributs de fichiers",
+            "en": "File permissions, ownership and attribute fidelity",
+            "es": "Fidelidad de permisos, propietarios y atributos de archivos"
+          },
+          "proof": null
+        },
+        {
+          "id": "whole-universe",
+          "status": "unverified",
+          "label": {
+            "fr": "Univers complet avec volumes et bases MariaDB privées cohérentes",
+            "en": "Complete universe with volumes and consistent private MariaDB stores",
+            "es": "Universo completo con volúmenes y bases MariaDB privadas coherentes"
+          },
+          "proof": null
+        },
+        {
+          "id": "delivered-restore",
+          "status": "validated",
+          "label": {
+            "fr": "Commande native de restauration des contenus réguliers, documentée",
+            "en": "Documented native regular-content restore command",
+            "es": "Comando nativo documentado para restaurar contenidos normales"
+          },
+          "proof": "pmbs-native"
+        }
+      ],
+      "qualificationLabel": {
+        "fr": "Critères de restauration suivis",
+        "en": "Tracked recovery criteria",
+        "es": "Criterios de restauración seguidos"
+      },
+      "labSummary": {
+        "fr": "Une sauvegarde native de 8 fichiers, 13 chunks et 29 180 049 octets est restaurée depuis le serveur PMBS authentifié vers une destination absente. L’adaptateur d’état vérifie les cinq racines, tous les contenus sélectionnés et les métadonnées déclarées avant de démarrer les cinq cibles. Les 2 tâches Queue terminées, les valeurs Vault, le résultat de 152 octets, le préfixe Logger et les fichiers Maestro sont conservés. Une nouvelle écriture/lecture Vault et un nouvel événement Logger réussissent sur la cible. Les 17 contrôles indépendants passent ; cibles et serveur arrêtés, originaux contrôlés inchangés. Même hôte, images déjà en cache et état arrêté : pas de reprise sur hôte vierge, secours distant, volumes arbitraires ou attributs généraux qualifiés. Vault reste en clair, Queue sous SQLite et Bridge limité à sa santé, sans appel IA.",
+        "en": "A native backup of 8 files, 13 chunks and 29,180,049 bytes is restored from the authenticated PMBS server into an absent destination. The STATE adapter verifies all five roots, selected contents and declared metadata before starting five targets. The 2 completed Queue tasks, Vault values, 152-byte result, Logger prefix and Maestro files are retained. A new target Vault write/read and Logger event succeed. All 17 independent checks pass; targets and server stopped, checked originals unchanged. Same host, cached images and stopped state: no qualified cold-host recovery, remote disaster recovery, arbitrary volumes or general attributes. Vault remains plaintext, Queue uses SQLite and Bridge is health-only with no AI call.",
+        "es": "Una copia nativa de 8 archivos, 13 chunks y 29 180 049 bytes se restaura desde el servidor PMBS autenticado en un destino inexistente. El adaptador de estado verifica las cinco raíces, todos los contenidos seleccionados y metadatos declarados antes de iniciar cinco destinos. Se conservan las 2 tareas Queue terminadas, valores Vault, resultado de 152 bytes, prefijo Logger y archivos Maestro. Funcionan una nueva escritura/lectura Vault y un evento Logger. Pasan los 17 controles independientes; destinos y servidor parados, originales comprobados sin cambios. Mismo host, imágenes en caché y estado parado: sin validar recuperación en host vacío, recuperación remota, volúmenes arbitrarios ni atributos generales. Vault sigue sin cifrar, Queue usa SQLite y Bridge solo ofrece salud, sin llamada IA."
+      },
+      "labProofs": [
+        "pmbs-native-backup",
+        "pmbs-native",
+        "pmbs-server",
+        "pmbs-canonical-node-restore",
+        "pmbs-five-cell-state-restore"
+      ]
+    },
+    {
+      "id": "shaper",
+      "name": {
+        "fr": "Univers SHAPER intégré",
+        "en": "Integrated SHAPER universe",
+        "es": "Universo SHAPER integrado"
+      },
+      "scope": {
+        "fr": "SHAPER OS V1.15 · périmètres natifs conservés",
+        "en": "SHAPER OS V1.15 · retained native scopes",
+        "es": "SHAPER OS V1.15 · ámbitos nativos conservados"
+      },
+      "state": {
+        "fr": "Sous-ensemble utile qualifié",
+        "en": "Useful subset qualified",
+        "es": "Subconjunto útil validado"
+      },
+      "intro": {
+        "fr": "Faire travailler les unités ensemble et retrouver leur fonctionnement après restauration.",
+        "en": "Run the units together and recover useful operation after restoration.",
+        "es": "Hacer trabajar juntas las unidades y recuperar su funcionamiento tras restaurar."
+      },
+      "remaining": {
+        "fr": "Le fonctionnement utile restauré est acquis. Les pannes du parent, les réparations et les scénarios de sécurité restants demandent leur propre qualification.",
+        "en": "Useful restored operation is established. Remaining parent failures, repairs and security scenarios need their own qualification.",
+        "es": "El funcionamiento útil restaurado está demostrado. Los fallos del padre, reparaciones y escenarios de seguridad restantes necesitan su propia validación."
+      },
+      "checks": [
+        {
+          "id": "native-birth",
+          "status": "validated",
+          "label": {
+            "fr": "Création native et identités des unités",
+            "en": "Native creation and unit identities",
+            "es": "Creación nativa e identidades de unidades"
+          },
+          "proof": "shaper-useful"
+        },
+        {
+          "id": "restored-vault",
+          "status": "validated",
+          "label": {
+            "fr": "Restauration utile et lecture/écriture Vault",
+            "en": "Useful restoration and Vault read/write",
+            "es": "Restauración útil y lectura/escritura Vault"
+          },
+          "proof": "shaper-useful"
+        },
+        {
+          "id": "unit-chain",
+          "status": "validated",
+          "label": {
+            "fr": "Chaîne réelle Maestro → Queue → Bridge → témoin",
+            "en": "Actual Maestro → Queue → Bridge → witness chain",
+            "es": "Cadena real Maestro → Queue → Bridge → testigo"
+          },
+          "proof": "shaper-useful"
+        },
+        {
+          "id": "logger-events",
+          "status": "validated",
+          "label": {
+            "fr": "Événements Logger corrélés aux opérations utiles",
+            "en": "Logger events correlated with useful operations",
+            "es": "Eventos Logger correlacionados con operaciones útiles"
+          },
+          "proof": "shaper-useful"
+        },
+        {
+          "id": "parent-failure",
+          "status": "unverified",
+          "label": {
+            "fr": "Panne du parent et réconciliation après retour",
+            "en": "Parent failure and reconciliation after return",
+            "es": "Fallo del padre y reconciliación tras su vuelta"
+          },
+          "proof": null
+        },
+        {
+          "id": "repair-escalation",
+          "status": "unverified",
+          "label": {
+            "fr": "Réparation bornée, épuisement et remontée d’échec",
+            "en": "Bounded repair, exhaustion and failure escalation",
+            "es": "Reparación acotada, agotamiento y escalado del fallo"
+          },
+          "proof": null
+        },
+        {
+          "id": "fleet-security",
+          "status": "unverified",
+          "label": {
+            "fr": "Scénarios restants de sécurité et de reprise de flotte",
+            "en": "Remaining security and fleet-recovery scenarios",
+            "es": "Escenarios pendientes de seguridad y recuperación del conjunto"
+          },
+          "proof": null
+        }
+      ],
+      "qualificationLabel": {
+        "fr": "Critères d’intégration suivis",
+        "en": "Tracked integration criteria",
+        "es": "Criterios de integración seguidos"
+      },
+      "labSummary": {
+        "fr": "Les cinq cellules existantes redémarrent sur leur état conservé, avec une seule image Maestro corrigée. TERM pendant une attente IPC réelle et INT pendant une attente temporisée se terminent avec code0. Dans la cellule, l’arrêt Podman normal de Maestro prend environ 0,087 seconde, sans SIGKILL. Les 2 tâches Queue terminées, le contenu Vault, le résultat de 152 octets, les marqueurs de planification et le préfixe Logger restent conservés, sans rejouer les producteurs. Tous les acteurs sont arrêtés et l’existant contrôlé préservé. Queue reste SQLite WAL, Vault reste en JSON clair et Bridge ne lance pas encore de vrai moteur : aucune inférence, chiffrement du coffre, restauration complète PMBS, HA ou production qualifiés.",
+        "en": "The five existing cells restart on their retained state with only one changed Maestro image. TERM during actual IPC waiting and INT during timed waiting both exit0. Within the cell, normal Podman stop of Maestro takes about 0.087 seconds without SIGKILL. The 2 completed Queue tasks, Vault contents, 152-byte result, schedule markers and Logger prefix are retained without replaying producers. All actors stopped and checked originals preserved. Queue remains SQLite WAL, Vault remains plaintext JSON and Bridge still does not invoke a real engine: no qualified inference, vault encryption, complete PMBS restore, HA or production.",
+        "es": "Las cinco células existentes reinician con su estado conservado y una sola imagen Maestro corregida. TERM durante espera IPC real e INT durante espera temporizada terminan con código0. En la célula, la parada Podman normal de Maestro tarda unos 0,087 segundos, sin SIGKILL. Se conservan las 2 tareas Queue terminadas, contenido Vault, resultado de 152 bytes, marcadores de planificación y prefijo Logger, sin repetir productores. Actores parados y originales comprobados preservados. Queue sigue en SQLite WAL, Vault en JSON sin cifrar y Bridge aún no llama a un motor real: sin validar inferencia, cifrado, restauración PMBS completa, HA ni producción."
+      },
+      "labProofs": [
+        "shaper-useful",
+        "alpine-stem-cell-core",
+        "alpine-stem-cell-restart",
+        "pmbs-five-cell-state-restore"
+      ]
+    }
+  ],
+  "proofs": [
+    {
+      "id": "node-common",
+      "date": "2026-10-08",
+      "version": "NODE 64238f · recipe affe6a",
+      "title": {
+        "fr": "NODE : opérations et restauration",
+        "en": "NODE: operations and restoration",
+        "es": "NODE: operaciones y restauración"
+      },
+      "summary": {
+        "fr": "MariaDB privée, huit opérations et rejeux, arrêt propre, restauration en cible vide en mode simple et imbriqué, puis fonctionnement utile et retour arrière. Les conteneurs imbriqués retrouvent leurs données ; leur mémoire vive n’est pas certifiée.",
+        "en": "Private MariaDB, eight operations and replays, clean stop, empty-target flat and nested restore, useful operation and rollback. Nested containers recover data; inner memory continuity is not certified.",
+        "es": "MariaDB privada, ocho operaciones y reejecuciones, parada limpia, restauración simple y anidada en destino vacío, funcionamiento útil y reversión. No se certifica la continuidad de memoria interna."
+      }
+    },
+    {
+      "id": "manager-native",
+      "date": "2026-10-08",
+      "version": "Manager d0bcf079",
+      "title": {
+        "fr": "Manager : journal et restauration native",
+        "en": "Manager: journal and native restore",
+        "es": "Manager: registro y restauración nativa"
+      },
+      "summary": {
+        "fr": "Restauration native, identité conservée, ancien rejeu et nouvelle opération durable, comparaison de trois répliques et arrêt propre. Cette preuve n’active pas la haute disponibilité automatique.",
+        "en": "Native restore, preserved identity, historical replay and a new durable operation, three-replica comparison and clean stop. This does not enable automatic high availability.",
+        "es": "Restauración nativa, identidad conservada, reejecución y nueva operación duradera, comparación de tres réplicas y parada limpia. No activa la alta disponibilidad automática."
+      }
+    },
+    {
+      "id": "node-confirmation",
+      "date": "2026-10-22",
+      "version": "NODE 64238f · recipe affe6a",
+      "title": {
+        "fr": "Socle NODE confirmé dans un nouveau labo",
+        "en": "NODE baseline confirmed in a new lab",
+        "es": "Base NODE confirmada en otro laboratorio"
+      },
+      "summary": {
+        "fr": "Installation, création typée, correspondance API/SQL, arrêt et redémarrage propres, rejeu sans nouvel effet et nettoyage vérifiés sur les mêmes octets du paquet commun.",
+        "en": "Install, typed create, matching API/SQL state, clean stop/restart, replay without a new effect and cleanup verified on the same common-package bytes.",
+        "es": "Instalación, creación tipada, coincidencia API/SQL, parada y reinicio limpios, reejecución sin nuevo efecto y limpieza verificados con el mismo paquete."
+      }
+    },
+    {
+      "id": "replication-lab",
+      "date": "2026-10-07",
+      "version": "Historical G4 P5 · SQLite lab path",
+      "title": {
+        "fr": "Réplication et bascule planifiée déjà démontrées",
+        "en": "Replication and planned switchover already demonstrated",
+        "es": "Replicación y cambio planificado ya demostrados"
+      },
+      "summary": {
+        "fr": "Sur deux hôtes, configuration, réplication et bascule planifiée réussies avec captures à l’arrêt et à chaud. Identité d’univers et marqueur persistant conservés ; le scénario à chaud rapporte 2,25 secondes d’interruption. Cette preuve sur un conteneur simple ne couvre ni toutes les applications, ni la RAM imbriquée, ni la haute disponibilité automatique, ni le portage MariaDB privé.",
+        "en": "On two hosts, configuration, replication and planned switchover passed with stopped and live captures. Universe identity and a persistent marker were preserved; the live scenario reports 2.25 seconds of interruption. This flat-container proof does not cover all applications, nested RAM, automatic high availability or the private MariaDB port.",
+        "es": "En dos hosts funcionaron configuración, replicación y cambio planificado con capturas en parada y en caliente. Se conservaron identidad y marcador persistente; el escenario en caliente informa de 2,25 segundos de interrupción. La prueba en contenedor simple no cubre todas las aplicaciones, RAM anidada, alta disponibilidad automática ni adaptación a MariaDB privada."
+      }
+    },
+    {
+      "id": "move-lab",
+      "date": "2026-10-07",
+      "version": "Historical NODE 95daeca · SQLite lab path",
+      "title": {
+        "fr": "Déplacement imbriqué déjà démontré",
+        "en": "Nested move already demonstrated",
+        "es": "Traslado anidado ya demostrado"
+      },
+      "summary": {
+        "fr": "Déplacement vérifié entre deux hôtes : capture sur la source, transfert, restauration puis retrait de la source, avec UUID d’univers conservé. La reprise interne concerne les fichiers et journaux après mise au repos, pas la conservation de la RAM interne. Configuration expérimentale privilégiée, sans qualification générale du réseau ou des applications.",
+        "en": "Verified move between two hosts: source capture, transfer, restoration and source retirement with preserved universe UUID. Inner recovery covers quiesced files and logs, not preserved inner RAM. Experimental privileged configuration, without general network or application qualification.",
+        "es": "Traslado verificado entre dos hosts: captura, transferencia, restauración y retirada de la fuente con UUID conservado. La recuperación interna cubre archivos y registros en reposo, no la RAM interna. Configuración experimental privilegiada, sin validación general de red o aplicaciones."
+      }
+    },
+    {
+      "id": "move-gap",
+      "date": "2026-10-22",
+      "version": "Private MariaDB target",
+      "title": {
+        "fr": "Déplacement MariaDB : dépendance identifiée",
+        "en": "MariaDB move: identified dependency",
+        "es": "Traslado con MariaDB: dependencia identificada"
+      },
+      "summary": {
+        "fr": "Le diagnostic initial avait identifié une capacité hôte typée manquante sur le moteur MariaDB. Le nouveau précontrôle source est maintenant démontré séparément ; les opérations de déplacement et de point de reprise restent refusées. Les anciennes preuves SQLite ne qualifient pas ces effets MariaDB.",
+        "en": "The initial diagnosis identified a missing typed host capability on the MariaDB backend. The new source preflight is now demonstrated separately; move and recovery-point effects remain refused. Historical SQLite proofs do not qualify these MariaDB effects.",
+        "es": "El diagnóstico inicial identificó una capacidad tipada del host ausente con MariaDB. La nueva comprobación del origen ya se demostró por separado; los efectos de traslado y recuperación siguen rechazados. Las pruebas SQLite no validan estos efectos con MariaDB."
+      }
+    },
+    {
+      "id": "mesh-replay",
+      "date": "2026-10-21",
+      "version": "MeshFS 2f9e27e",
+      "title": {
+        "fr": "Anciens rejeux et métadonnées bornées",
+        "en": "Stale replays and bounded metadata",
+        "es": "Reejecuciones antiguas y metadatos acotados"
+      },
+      "summary": {
+        "fr": "Sur deux labos : anciens messages refusés après éviction, rejeu récent sans écrasement, état conservé après redémarrage et références de fichiers et snapshots préservées. Le stockage physique des blocs n’est pas purgé par cette preuve.",
+        "en": "Two labs: stale messages refused after eviction, recent retry without overwrite, restart persistence and file/snapshot references preserved. Physical block reclamation is not proved.",
+        "es": "En dos laboratorios: mensajes antiguos rechazados tras la expulsión, reintento reciente sin sobrescritura, persistencia tras reinicio y referencias conservadas. No demuestra liberación física de bloques."
+      }
+    },
+    {
+      "id": "mesh-empty",
+      "date": "2026-10-21",
+      "version": "MeshFS ac9e777",
+      "title": {
+        "fr": "Rattrapage d’une réplique vide",
+        "en": "Empty-replica catch-up",
+        "es": "Recuperación de una réplica vacía"
+      },
+      "summary": {
+        "fr": "Rattrapage d’une réplique vide avec le nouveau protocole, dans les scénarios conservés des deux labos. Cette preuve reste liée à cette version ; elle ne certifie pas toutes les mises à niveau ni une panne d’hôte physique.",
+        "en": "Empty-replica catch-up with the new protocol in the retained two-lab scenarios. Bound to that version; not a general upgrade or physical-host failure certificate.",
+        "es": "Recuperación de una réplica vacía con el nuevo protocolo en los escenarios de dos laboratorios. Prueba ligada a esa versión, no a toda actualización ni a fallos del host físico."
+      }
+    },
+    {
+      "id": "mesh-ingestion",
+      "date": "2026-10-21",
+      "version": "MeshFS 934c199",
+      "title": {
+        "fr": "Ingestion réelle : 262 144 blocs",
+        "en": "Actual ingestion: 262,144 blocks",
+        "es": "Ingesta real: 262 144 bloques"
+      },
+      "summary": {
+        "fr": "262 144 requêtes acquittées sans résultat incertain sur le labo secondaire, avec contrôle des contenus des trois répliques. Le labo principal a présenté des dépassements de délai : son blocage reste ouvert.",
+        "en": "262,144 acknowledged requests with no uncertain outcome in the secondary lab, with payload checks on all three replicas. Primary-lab deadline failures remain open.",
+        "es": "262 144 solicitudes confirmadas sin resultados inciertos en el laboratorio secundario, con comprobación de tres réplicas. Los fallos de plazo del laboratorio principal siguen abiertos."
+      }
+    },
+    {
+      "id": "mesh-recovery",
+      "date": "2026-10-22",
+      "version": "MeshFS c7a67c9",
+      "title": {
+        "fr": "Reprise après arrêt brutal",
+        "en": "Recovery after abrupt stop",
+        "es": "Recuperación tras parada abrupta"
+      },
+      "summary": {
+        "fr": "Les 96 contenus acquittés conservés ont été relus après réouverture réelle des trois répliques ; une nouvelle écriture porte le total contrôlé à 97. Aucun ancien jeu de données n’a été remplacé.",
+        "en": "All 96 retained acknowledged payloads were read after actual reopening of three replicas; a new write brought the checked total to 97. Previous datasets were preserved.",
+        "es": "Los 96 contenidos confirmados se leyeron tras reabrir las tres réplicas; una nueva escritura elevó el total comprobado a 97. Los datos anteriores se conservaron."
+      }
+    },
+    {
+      "id": "mesh-latency",
+      "date": "2026-10-21",
+      "version": "MeshFS c7a67c9",
+      "title": {
+        "fr": "Délais d’écriture : blocage ouvert",
+        "en": "Write latency: open blocker",
+        "es": "Latencia de escritura: bloqueo abierto"
+      },
+      "summary": {
+        "fr": "Des confirmations dépassent la limite de trois secondes. Un fsync du journal a duré 3,35 secondes dans une capture instrumentée. La cause exclusive n’est pas isolée et l’écriture peut être enregistrée malgré le timeout.",
+        "en": "Some confirmations exceed the three-second deadline. A journal fsync took 3.35 seconds in an instrumented capture. The sole cause is not isolated; a timed-out write may still be recorded.",
+        "es": "Algunas confirmaciones superan tres segundos. Un fsync del registro duró 3,35 segundos en una captura instrumentada. La causa única no está aislada y una escritura puede quedar registrada pese al timeout."
+      }
+    },
+    {
+      "id": "pmbs-policy",
+      "date": "2026-10-21",
+      "version": "PMBS 702ec62 → c932df3",
+      "title": {
+        "fr": "Manifestes, chemins et accès API",
+        "en": "Manifests, paths and API access",
+        "es": "Manifiestos, rutas y acceso API"
+      },
+      "summary": {
+        "fr": "Les contrôles ciblés des manifestes, chemins et accès API sont conservés avec leurs versions. L’intégrité d’un snapshot et le démarrage réel d’une application restent deux preuves distinctes.",
+        "en": "Targeted manifest, path and API-access checks are retained with their versions. Snapshot integrity and actual application operation remain distinct proofs.",
+        "es": "Se conservan controles de manifiestos, rutas y acceso API con sus versiones. La integridad de un snapshot y el funcionamiento de una aplicación son pruebas distintas."
+      }
+    },
+    {
+      "id": "pmbs-data",
+      "date": "2026-10-22",
+      "version": "PMBS c932df3",
+      "title": {
+        "fr": "Sauvegarde et reprise utile Podman",
+        "en": "Podman backup and useful recovery",
+        "es": "Copia y recuperación útil de Podman"
+      },
+      "summary": {
+        "fr": "Sauvegarde authentifiée, manifeste retrouvé après redémarrage du service, restauration de données dans une cible vide, puis lecture des cinq enregistrements et écriture de cinq nouveaux.",
+        "en": "Authenticated backup, manifest recovered after service restart, data restored to an empty target, then five records recovered and five new records written.",
+        "es": "Copia autenticada, manifiesto recuperado tras reiniciar el servicio, datos restaurados en destino vacío, cinco registros recuperados y cinco nuevos escritos."
+      }
+    },
+    {
+      "id": "pmbs-server",
+      "date": "2026-10-22",
+      "version": "PMBS c932df3",
+      "title": {
+        "fr": "Image, configuration et données depuis le serveur",
+        "en": "Image, configuration and data from the server",
+        "es": "Imagen, configuración y datos desde el servidor"
+      },
+      "summary": {
+        "fr": "Métadonnées et contenus récupérés par l’API PMBS authentifiée, sans ancien manifeste client. Magasin Podman initialement vide, image et configuration bornée reconstituées, cinq enregistrements retrouvés et sixième synchronisé. Revue Opus 5.5 et muse-shaper. Cinq fichiers simples ; orchestration externe, sans preuve de reprise complète d’un univers MariaDB.",
+        "en": "Metadata and payloads recovered through authenticated PMBS API, without a retained client index. Initially empty Podman store, recovered image and bounded config, five records recovered and a sixth synced. Reviewed by Opus 5.5 and muse-shaper. Five regular files; external orchestration, not a complete MariaDB-universe recovery proof.",
+        "es": "Metadatos y contenidos recuperados por la API PMBS autenticada, sin índice cliente previo. Almacén Podman vacío, imagen y configuración acotada recuperadas, cinco registros encontrados y un sexto sincronizado. Revisado por Opus 5.5 y muse-shaper. Cinco archivos normales; orquestación externa, no recuperación completa de un universo MariaDB."
+      }
+    },
+    {
+      "id": "shaper-useful",
+      "date": "2026-10-22",
+      "version": "Adopted V1.15 · qualified unit scopes",
+      "title": {
+        "fr": "Univers SHAPER : sous-ensemble utile restauré",
+        "en": "SHAPER universe: useful restored subset",
+        "es": "Universo SHAPER: subconjunto útil restaurado"
+      },
+      "summary": {
+        "fr": "Bilan du 22 octobre reprenant les preuves natives antérieures. Clone natif et restauration utiles conservés : Vault écrit et relit, Maestro déclenche Queue puis Bridge vers un témoin indépendant, Logger conserve cinq événements corrélés. Les scénarios restants du parent et de réparation ne sont pas clos.",
+        "en": "October 22 review of earlier native evidence. Retained native clone and useful restore: Vault write/read, Maestro triggers Queue and Bridge toward an independent witness, and Logger records five correlated events. Remaining parent and repair scenarios are not closed.",
+        "es": "Balance del 22 de octubre de pruebas nativas anteriores. Clon nativo y restauración útil conservados: Vault escribe y lee, Maestro activa Queue y Bridge hacia un testigo independiente, Logger registra cinco eventos correlacionados. Los escenarios pendientes del padre y reparación no están cerrados."
+      }
+    },
+    {
+      "id": "pmbs-native",
+      "date": "2026-10-22",
+      "version": "PMBS 075d303 · ELF 755c9357",
+      "title": {
+        "fr": "Restauration native et reprise utile Podman",
+        "en": "Native restoration and useful Podman recovery",
+        "es": "Restauración nativa y recuperación útil de Podman"
+      },
+      "summary": {
+        "fr": "Après 11 tests ciblés réussis et un build unique sur la même version, le vrai CLI a restauré cinq fichiers réguliers (3 922 777 octets) : image OCI, configuration et données. Le serveur et le client utilisent le même binaire vérifié. Une reprise Podman séparée a retrouvé cinq enregistrements et synchronisé le sixième. Originaux préservés, ressources de test arrêtées, revues Opus 5.5 et muse-shaper. La copie de sauvegarde a d’abord été transférée, puis l’API a été utilisée en loopback : aucune preuve HTTP inter-hôtes ou de DR distant. Pas de restitution des attributs, de démarrage automatique par le CLI ni de restauration d’univers MariaDB complet.",
+        "en": "After 11 targeted tests passed and one build of the same version, the actual CLI restored five regular files (3,922,777 bytes): OCI image, configuration and data. Server and client use the same verified binary. A separate Podman launch recovered five records and synced a sixth. Originals preserved, test resources stopped, reviewed by Opus 5.5 and muse-shaper. The backup copy was transported first, then accessed through loopback API: no inter-host HTTP or remote-DR proof. No attribute recovery, automatic CLI workload launch or full MariaDB-universe restoration.",
+        "es": "Tras 11 pruebas específicas superadas y una compilación de la misma versión, el CLI real restauró cinco archivos normales (3 922 777 bytes): imagen OCI, configuración y datos. Servidor y cliente usan el mismo binario verificado. Una ejecución Podman separada recuperó cinco registros y sincronizó un sexto. Originales conservados, recursos de ensayo detenidos, revisado por Opus 5.5 y muse-shaper. La copia se transportó primero y después se accedió por API loopback: no demuestra HTTP entre hosts ni DR remoto. No restaura atributos, no inicia automáticamente la carga ni restaura un universo MariaDB completo."
+      },
+      "instructions": {
+        "fr": "Vérifiez que votre version expose pmbs restore --help. Fournissez PMBS_API_TOKEN par le canal de secrets habituel. Le parent doit exister, sans lien symbolique ; le dossier cible doit être absent. Utilisez l’ID et le type réels du snapshot. HTTPS ou HTTP loopback numérique uniquement. Cette commande restaure les contenus ; le lancement d’une application est une étape distincte.",
+        "en": "Check that your version provides pmbs restore --help. Supply PMBS_API_TOKEN through your usual secret channel. The parent must exist without symlinks; the destination must be absent. Use the actual snapshot ID and type. HTTPS or numeric-loopback HTTP only. This command restores contents; application launch is a separate step.",
+        "es": "Compruebe que su versión ofrece pmbs restore --help. Proporcione PMBS_API_TOKEN mediante su canal habitual de secretos. El directorio padre debe existir sin enlaces simbólicos; el destino no debe existir. Use el ID y tipo reales del snapshot. Solo HTTPS o HTTP loopback numérico. El comando restaura contenidos; iniciar la aplicación es otro paso."
+      },
+      "example": "pmbs restore /srv/recovery/restored-content \\\n  --datastore datastore-default \\\n  --snapshot universe-snapshot-001 \\\n  --backup-type podman \\\n  --remote https://backup.example.net \\\n  --max-bytes 10737418240"
+    },
+    {
+      "id": "move-mariadb-readonly",
+      "date": "2026-10-22",
+      "version": "NODE/provider 0aa3a7f · MariaDB 11.8.9",
+      "title": {
+        "fr": "Précontrôle source sans écriture sur MariaDB privée",
+        "en": "Write-free source preflight on private MariaDB",
+        "es": "Comprobación del origen sin escrituras con MariaDB privada"
+      },
+      "summary": {
+        "fr": "Après 15 tests ciblés et la construction du paquet exact, un vrai NODE avec son fournisseur hôte a évalué un conteneur Podman possédé. Le résultat est vérifié mais incompatible, sans déplacement. Une requête ne différant que par un scope incorrect a été refusée. Les empreintes canoniques des 40 tables du journal et du registre fournisseur sont identiques avant et après les deux appels. Les témoins sont calculés dans l’invité ; les lignes SQL brutes restent privées. Workload supprimé, arrêt propre et rollback natif terminés ; données conservées. Les services persistants, montages et anciens fichiers contrôlés sont préservés ; le gestionnaire de sessions SSH a changé de PID, écart conservé. Revues Opus 5.5 et muse-shaper. Aucun contrôle de destination, transfert, checkpoint, restauration ou preuve de continuité après déplacement.",
+        "en": "After 15 targeted tests and construction of the exact package, a real NODE and its host provider assessed an owned Podman container. The result is verified but incompatible, with no move. A request differing only by an incorrect scope was refused. Canonical digests of all 40 journal tables and the provider registry match before and after both calls. Witnesses are computed in the guest; raw SQL rows remain private. Workload removed, clean stop and native rollback completed; data retained. Checked persistent services, mounts and old files are preserved; the SSH session manager changed PID and this difference is retained. Reviewed by Opus 5.5 and muse-shaper. No destination check, transfer, checkpoint, restore or post-move continuity proof.",
+        "es": "Tras 15 pruebas específicas y construir el paquete exacto, un NODE real y su proveedor del host evaluaron un contenedor Podman propio. El resultado es verificado pero incompatible, sin traslado. Se rechazó una solicitud que solo cambiaba a un scope incorrecto. Las huellas canónicas de las 40 tablas y del registro del proveedor coinciden antes y después de ambas llamadas. Los testigos se calculan en el invitado; las filas SQL permanecen privadas. Carga eliminada, parada limpia y reversión nativa completas; datos conservados. Servicios persistentes, montajes y archivos anteriores comprobados conservados; el gestor de sesiones SSH cambió de PID y se registra la diferencia. Revisado por Opus 5.5 y muse-shaper. No demuestra destino, transferencia, checkpoint, restauración ni continuidad tras traslado."
+      }
+    },
+    {
+      "id": "pmbs-native-backup",
+      "date": "2026-10-22",
+      "version": "PMBS 30c8d21 · ELF 82c88f7b",
+      "title": {
+        "fr": "Sauvegarde native, restauration et nouvelle écriture Podman",
+        "en": "Native backup, restore and a new Podman write",
+        "es": "Copia nativa, restauración y nueva escritura Podman"
+      },
+      "summary": {
+        "fr": "Quatre tests ciblés ont réussi, avec une vraie exécution du cas routeur dans un sous-processus, puis un build unique. Le nouveau binaire a capturé une entrée explicitement mise au repos : cinq fichiers, quatre blocs CAS, 3 915 007 octets. La publication est en création seule, sans écrasement. Le même binaire a restauré les métadonnées et contenus du serveur vers une cible absente ; les empreintes ont été comparées avant utilisation. Une reprise Podman séparée a relu les trois enregistrements puis synchronisé le quatrième. Traces HTTP du parcours conservées, nettoyage vérifié, services persistants et anciens jeux contrôlés préservés ; variations normales des sessions SSH consignées. Revues Opus 5.5 et muse-shaper. Périmètre : petit jeu de fichiers réguliers, entrée au repos et HTTP loopback. Pas de capture MariaDB à chaud, de restitution des attributs, de démarrage automatique par le CLI, de reprise après panne d’alimentation ou de PRA distant.",
+        "en": "Four targeted tests passed, including actual execution of the router case in a child process, followed by one build. The new binary captured explicitly quiesced input: five files, four CAS chunks, 3,915,007 bytes. Publication is create-only without overwrite. The same binary restored server metadata and contents into an absent destination; hashes were checked before use. A separate Podman launch read the three records and synced a fourth. HTTP traces retained, cleanup verified, checked persistent services and old datasets preserved; normal SSH-session changes recorded. Reviewed by Opus 5.5 and muse-shaper. Scope: small regular-file input, quiescent capture and loopback HTTP. No live MariaDB capture, attribute fidelity, automatic CLI workload launch, power-loss recovery or remote disaster recovery.",
+        "es": "Cuatro pruebas específicas superadas, incluida la ejecución real del caso del router en un proceso hijo, seguidas de una compilación. El nuevo binario capturó una entrada explícitamente en reposo: cinco archivos, cuatro bloques CAS y 3 915 007 bytes. La publicación solo crea, sin sobrescribir. El mismo binario restauró metadatos y contenidos del servidor en un destino inexistente; se compararon huellas antes de usarlo. Una ejecución Podman separada leyó tres registros y sincronizó un cuarto. Trazas HTTP conservadas, limpieza verificada, servicios persistentes y datos anteriores comprobados conservados; cambios normales de sesiones SSH registrados. Revisado por Opus 5.5 y muse-shaper. Ámbito: archivos normales pequeños, captura en reposo y HTTP loopback. No cubre MariaDB activa, atributos, inicio automático por CLI, pérdida de alimentación ni recuperación remota."
+      },
+      "instructions": {
+        "fr": "Vérifiez que la version expose pmbs backup --help et pmbs restore --help. Arrêtez les écritures de l’application avant de préparer le répertoire de fichiers réguliers. Fournissez le token par le canal de secrets habituel. Choisissez un nouvel identifiant de snapshot et des limites adaptées ; ne réessayez pas aveuglément après une publication non confirmée. Conservez l’entrée au repos pendant toute la capture. Les commandes ne sauvegardent pas automatiquement une base active.",
+        "en": "Check that the version exposes pmbs backup --help and pmbs restore --help. Stop application writes before preparing the regular-file directory. Supply the token through the usual secret channel. Choose a new snapshot ID and suitable limits; do not blindly retry an unconfirmed publication. Keep input quiescent throughout capture. These commands do not automatically back up a running database.",
+        "es": "Compruebe que la versión ofrece pmbs backup --help y pmbs restore --help. Pare las escrituras antes de preparar los archivos normales. Proporcione el token mediante su canal habitual de secretos. Elija un ID nuevo y límites adecuados; no repita a ciegas una publicación no confirmada. Mantenga la entrada en reposo durante toda la captura. Los comandos no copian automáticamente una base activa."
+      },
+      "example": "pmbs backup /srv/backup/quiesced-input \\\n  --quiesced-input --snapshot app-snapshot-001 \\\n  --backup-type podman --datastore datastore-default \\\n  --remote https://backup.example.net \\\n  --max-bytes 10737418240 --max-files 1000\n\npmbs restore /srv/recovery/restored-content \\\n  --snapshot app-snapshot-001 --backup-type podman \\\n  --datastore datastore-default \\\n  --remote https://backup.example.net \\\n  --max-bytes 10737418240"
+    },
+    {
+      "id": "canonical-boundary",
+      "date": "2026-10-22",
+      "version": "SHAPER OS · unit topology and table qualification",
+      "kind": "scope-correction",
+      "runtimePass": false,
+      "title": {
+        "fr": "Limite des preuves MariaDB et conformité des unités",
+        "en": "MariaDB evidence boundary and unit conformity",
+        "es": "Límite de las pruebas MariaDB y conformidad de las unidades"
+      },
+      "summary": {
+        "fr": "Relecture des règles de l’unité fonctionnelle et des recettes effectivement testées : le précontrôle NODE utilisait une vraie MariaDB privée, mais dans un conteneur distinct avec accès TCP loopback. Il ne prouve donc pas le placement dans le même conteneur, le socket privé sans écoute TCP, ni les partitions SQL attendues. Les cinq unités du sous-ensemble SHAPER restauré disposent de leurs MariaDB internes privées ; ce résultat ne se transfère pas aux recettes NODE/manager. Les anciens acquis et tous les critères chiffrés sont conservés. Il s’agit d’une correction de périmètre, pas d’un nouveau test réussi.",
+        "en": "Checked functional-unit rules against the recipes actually tested: NODE preflight used real private MariaDB, but in a separate container over loopback TCP. It therefore does not prove same-container placement, private socket without TCP listening, or required SQL partitions. The five units in the useful restored SHAPER subset have their private in-container MariaDB servers; that result does not transfer to NODE/manager recipes. Earlier achievements and all scored criteria are retained. This is a scope correction, not a new passed runtime test.",
+        "es": "Reglas de la unidad contrastadas con las recetas realmente probadas: el precontrol NODE usó MariaDB privada real, pero en otro contenedor mediante TCP loopback. No demuestra ubicación en el mismo contenedor, socket privado sin escucha TCP ni las particiones SQL exigidas. Las cinco unidades del subconjunto SHAPER restaurado tienen MariaDB interna privada; ese resultado no se transfiere a NODE/manager. Se conservan los logros anteriores y todos los criterios puntuados. Es una corrección de ámbito, no una prueba de ejecución nueva."
+      }
+    },
+    {
+      "id": "canonical-import-preparation",
+      "date": "2026-10-23",
+      "version": "Canonical candidate · isolated import preparation",
+      "kind": "preparatory-boundary",
+      "runtimePass": false,
+      "importPass": false,
+      "productionQualified": false,
+      "title": {
+        "fr": "Historique du 23 octobre : préparation isolée de l’import",
+        "en": "23 October history: isolated import preparation",
+        "es": "Histórico del 23 de octubre: preparación aislada de importación"
+      },
+      "summary": {
+        "fr": "État historique du 23 octobre, dépassé par les nouveaux essais natifs ci-dessus. Les contrôles ont vérifié les namespaces privés, les correspondances utilisateur/groupe, les refus d’écriture sur les données d’origine et la liaison indépendante au processus testé. Les verrous ont ensuite été créés dans l’espace privé. L’import réel a rencontré une limite de création de threads ; la tentative suivante, à concurrence réduite, s’est arrêtée plus tôt sur un répertoire temporaire manquant. Cette dernière tentative ne démontre donc pas la résolution de la limite de threads. Aucune inspection d’image, création de conteneur applicatif ni opération SQL n’a été validée. Après nettoyage, les services, clés, montages et stockage d’origine contrôlés sont préservés ; aucun acteur jetable ne subsiste. Ces acquis préparatoires ne valident ni le cycle de vie canonique, ni le déplacement/réplication MariaDB, ni la production.",
+        "en": "Historical state on 23 October, superseded by the new native tests above. Checks verified private namespaces, user/group mappings, denied writes to original data and independent binding to the tested process. Locks were then created in private storage. Actual import encountered a thread-creation limit; the next reduced-concurrency attempt stopped earlier on a missing temporary directory. That attempt therefore does not establish resolution of the thread limit. No image inspection, application-container creation or SQL operation was validated. After cleanup, checked original services, keys, mounts and storage are preserved, with no disposable actor left. These preparatory achievements do not qualify canonical lifecycle, MariaDB move/replication or production.",
+        "es": "Estado histórico del 23 de octubre, superado por los nuevos ensayos nativos anteriores. Los controles verificaron namespaces privados, correspondencias de usuario/grupo, denegación de escrituras en datos originales y vinculación independiente al proceso probado. Los bloqueos se crearon en almacenamiento privado. La importación encontró un límite de creación de hilos; el siguiente intento con menor concurrencia paró antes por un directorio temporal ausente. Por tanto, no demuestra que el límite esté resuelto. No se validaron inspección de imagen, creación de contenedor de aplicación ni operación SQL. Tras limpiar, se conservan servicios, claves, montajes y almacenamiento originales comprobados, sin actores desechables. Estos avances preparatorios no validan ciclo de vida canónico, traslado/replicación MariaDB ni producción."
+      }
+    },
+    {
+      "id": "canonical-node-persistence",
+      "date": "2026-10-24",
+      "version": "Canonical NODE · entrypoint4622a40",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "NODE canonique : données conservées après recréation",
+        "en": "Canonical NODE: data preserved after recreation",
+        "es": "NODE canónico: datos conservados tras recreación"
+      },
+      "summary": {
+        "fr": "MariaDB et NODE dans un même conteneur, socket SQL privé et fournisseur natif. Une écriture SQL applicative et un fichier sont retrouvés après arrêt propre et recréation ; identité, configuration et identifiants de connexion sont conservés. Un seul cycle propre, sans panne d’hôte.",
+        "en": "MariaDB and NODE in one container, private SQL socket and native provider. An application SQL write and file survive clean stop and recreation; identity, configuration and credentials are preserved. One clean cycle, without host failure.",
+        "es": "MariaDB y NODE en un contenedor, socket SQL privado y proveedor nativo. Una escritura SQL y un archivo sobreviven a parada limpia y recreación; se conservan identidad, configuración y credenciales. Un ciclo limpio, sin fallo del host."
+      }
+    },
+    {
+      "id": "canonical-sql-transfer",
+      "date": "2026-10-24",
+      "version": "Native logical SQL · entrypoint4622a40",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Copie SQL cohérente : 40 tables, 7 lignes",
+        "en": "Coherent SQL copy: 40 tables, 7 rows",
+        "es": "Copia SQL coherente: 40 tablas, 7 filas"
+      },
+      "summary": {
+        "fr": "Premier essai : blocage d’identité désormais levé dans la preuve d’adoption ci-dessus. Export InnoDB cohérent, import sur base cible absente, comparaison du schéma et du contenu de toutes les tables. Trois tables contiennent 7 lignes ; 37 sont vides. Sur le même hôte : recréation et nouvelle écriture réussies, identifiants de connexion cible distincts. Entre hôtes : SQL et fichier identiques, mais démarrage refusé par l’identité de l’ancien hôte. Aucun objet vue/routine/trigger/event non vide testé ; ni réplication ni déplacement complet qualifiés.",
+        "en": "First test: identity blocker now resolved in the adoption proof above. Coherent InnoDB export, import into an absent target database, schema and content comparison of every table. Three tables contain 7 rows; 37 are empty. Same host: recreation and new write passed, with distinct target credentials. Across hosts: matching SQL and file, but startup refused by former host identity. No nonempty view/routine/trigger/event tested; neither replication nor complete move qualified.",
+        "es": "Primer ensayo: bloqueo de identidad resuelto en la prueba de adopción anterior. Exportación InnoDB coherente, importación en base destino ausente y comparación de esquema y contenido de todas las tablas. Tres tablas contienen 7 filas; 37 están vacías. En el mismo host: recreación y nueva escritura correctas, con credenciales destino distintas. Entre hosts: SQL y archivo idénticos, pero inicio rechazado por identidad anterior. Sin probar vistas/rutinas/triggers/eventos no vacíos; ni replicación ni traslado completo validados."
+      }
+    },
+    {
+      "id": "canonical-process-recovery",
+      "date": "2026-10-24",
+      "version": "Native process recovery · entrypoint7f08b4a",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Reprise explicite après SIGKILL : récupération InnoDB observée",
+        "en": "Explicit SIGKILL recovery: InnoDB recovery observed",
+        "es": "Recuperación explícita tras SIGKILL: recuperación InnoDB observada"
+      },
+      "summary": {
+        "fr": "Après écriture SQL confirmée et fichier synchronisé, seul le conteneur jetable est tué. Son état reste marqué en cours, sans faux arrêt propre. La reprise explicite retrouve SQL, fichier, identité et configuration ; InnoDB annonce la récupération de 336 pages. Une nouvelle écriture réussit, puis arrêt propre. Services et processus d’origine contrôlés préservés. Un petit essai sur la même VM, pas de reprise automatique, panne physique, réplication ou production qualifiée.",
+        "en": "After a confirmed SQL write and synced file, only the disposable container is killed. Its state remains running, without a forged clean stop. Explicit recovery restores SQL, file, identity and configuration; InnoDB reports recovery of 336 pages. A new write succeeds, then clean stop. Checked original services and processes are preserved. One small same-VM test, without qualified automatic recovery, physical failure, replication or production.",
+        "es": "Tras escritura SQL confirmada y archivo sincronizado, se mata solo el contenedor desechable. Su estado sigue en ejecución, sin fingir parada limpia. La recuperación explícita conserva SQL, archivo, identidad y configuración; InnoDB informa recuperación de 336 páginas. Nueva escritura correcta y parada limpia. Servicios y procesos originales comprobados preservados. Un pequeño ensayo en la misma VM, sin validar recuperación automática, fallo físico, replicación ni producción."
+      }
+    },
+    {
+      "id": "canonical-crosshost-adoption",
+      "date": "2026-10-24",
+      "version": "Canonical NODE · entrypoint01d603f",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Restauration entre hôtes : adoption explicite et reprise utile",
+        "en": "Cross-host restore: explicit adoption and useful restart",
+        "es": "Restauración entre hosts: adopción explícita y reinicio útil"
+      },
+      "summary": {
+        "fr": "Un export cohérent de 40 tables et 7 lignes, plus un fichier témoin, est restauré sur une cible neuve. Avant adoption, schéma et contenu sont identiques. L’adoption explicite conserve le UUID logique et les données, change seulement la liaison machine et ajoute un audit. Une nouvelle écriture survit ensuite à une recréation ordinaire. Identifiants SQL propres à la cible ; sources et services contrôlés préservés, acteurs du test arrêtés. Petit essai manuel, sans réplication continue, bascule automatique, RAM ni qualification de production.",
+        "en": "A coherent export of 40 tables and 7 rows plus one marker file is restored into a fresh target. Schema and contents match before adoption. Explicit adoption preserves logical UUID and data, changing only machine binding and adding one audit. A new write then survives ordinary recreation. Target-specific SQL credentials; checked sources and services preserved, test actors stopped. Small manual test, without continuous replication, automatic cutover, RAM or production qualification.",
+        "es": "Una exportación coherente de 40 tablas y 7 filas más un archivo testigo se restaura en un destino nuevo. Esquema y contenido coinciden antes de adoptar. La adopción explícita conserva UUID lógico y datos, cambia solo la vinculación de máquina y añade una auditoría. Una nueva escritura sobrevive después a la recreación normal. Credenciales SQL propias del destino; fuentes y servicios comprobados conservados, actores de prueba parados. Pequeño ensayo manual, sin replicación continua, conmutación automática, RAM ni validación para producción."
+      }
+    },
+    {
+      "id": "pmbs-canonical-node-restore",
+      "date": "2026-10-24",
+      "version": "Native PMBS30c8d21 · canonical NODE4622a40",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "PMBS : restauration native du NODE et nouvelle écriture",
+        "en": "PMBS: native NODE restore and new write",
+        "es": "PMBS: restauración nativa del NODE y nueva escritura"
+      },
+      "summary": {
+        "fr": "Une sauvegarde native de 7 fichiers, puis une restauration depuis le serveur PMBS authentifié vers une destination absente, récupèrent l’export SQL cohérent et le fichier témoin. Le NODE restauré retrouve 40 tables/7 lignes, son UUID logique et le fichier ; une nouvelle écriture réussit après recréation propre. Les identifiants SQL de la cible sont régénérés explicitement. Même hôte, image déjà en cache, petit jeu de données : pas de copie de base active, de volumes arbitraires, d’attributs généraux, de reprise sur hôte vierge ni de secours distant qualifiés.",
+        "en": "Native backup of 7 files followed by restore from the authenticated PMBS server into an absent destination recovers the coherent SQL export and marker file. The restored NODE retains 40 tables/7 rows, logical UUID and file; a new write succeeds after clean recreation. Target SQL credentials are explicitly regenerated. Same host, cached image and small fixture: no qualified live database copy, arbitrary volumes, general attributes, cold-host recovery or remote disaster recovery.",
+        "es": "Una copia nativa de 7 archivos seguida de restauración desde el servidor PMBS autenticado hacia un destino inexistente recupera la exportación SQL coherente y el archivo testigo. El NODE conserva 40 tablas/7 filas, UUID lógico y archivo; una nueva escritura funciona tras recreación limpia. Las credenciales SQL destino se regeneran explícitamente. Mismo host, imagen en caché y datos pequeños: sin validar copia de base activa, volúmenes arbitrarios, atributos generales, recuperación en host vacío ni recuperación remota."
+      }
+    },
+    {
+      "id": "alpine-stem-cell-core",
+      "date": "2026-10-24",
+      "version": "Existing SHAPER stem cells · Alpine3.24.3",
+      "kind": "partial-native-runtime",
+      "runtimePass": false,
+      "coreFlowPass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Cellules souches Alpine : circulation utile, cycle de vie incomplet",
+        "en": "Alpine stem cells: useful core flow, incomplete lifecycle",
+        "es": "Células madre Alpine: flujo útil, ciclo de vida incompleto"
+      },
+      "summary": {
+        "fr": "Les cinq images existantes démarrent : Vault écrit et relit, Queue termine deux tâches dont une déclenchée par Maestro, Logger conserve 10 événements et Bridge répond à sa santé. Leur état est conservé après arrêt. Maestro a toutefois nécessité un arrêt forcé et le redémarrage reste non vérifié. Cette version utilise SQLite WAL pour Queue et du JSON en clair pour Vault. Le Bridge synthétise un texte sans appel réel de moteur : aucune inférence IA ni chiffrement du coffre démontrés. Résultat partiel distinct des anciens essais SHAPER ; tous les acteurs sont arrêtés et l’existant contrôlé est préservé.",
+        "en": "The five existing images start: Vault writes and reads, Queue completes two tasks including one triggered by Maestro, Logger retains 10 events and Bridge answers health checks. State is retained after stop. Maestro required forced termination and restart remains unverified. This version uses SQLite WAL for Queue and plaintext JSON for Vault. Bridge synthesizes text without a real engine call: no AI inference or vault encryption demonstrated. Partial result distinct from older SHAPER tests; all actors stopped and checked originals preserved.",
+        "es": "Las cinco imágenes existentes arrancan: Vault escribe y lee, Queue termina dos tareas, una activada por Maestro, Logger conserva 10 eventos y Bridge responde a salud. El estado se conserva tras parar. Maestro necesitó terminación forzada y el reinicio sigue sin verificar. Esta versión usa SQLite WAL para Queue y JSON sin cifrar para Vault. Bridge sintetiza texto sin llamar a un motor real: no se demuestran inferencia IA ni cifrado del almacén. Resultado parcial distinto de los ensayos SHAPER anteriores; actores parados y originales comprobados conservados."
+      }
+    },
+    {
+      "id": "canonical-manager-persistence",
+      "date": "2026-10-24",
+      "version": "Canonical MANAGER · image01d603f",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Manager canonique : écritures conservées après recréation",
+        "en": "Canonical manager: writes retained after recreation",
+        "es": "Manager canónico: escrituras conservadas tras recreación"
+      },
+      "summary": {
+        "fr": "Le vrai manager et MariaDB fonctionnent dans le même conteneur : application UID1103, SQL privé par socket sans port3306. Deux observations sont ajoutées et relues par les interfaces natives ; la première est retrouvée intégralement après arrêt propre et recréation. UUID, configuration, identifiants SQL, provenance et datadir restent identiques. Une seule réplique locale sans pair ni autorité d’activation ; acteurs arrêtés, existant contrôlé préservé. Ce résultat ne prouve ni réplication ni disponibilité de production.",
+        "en": "The actual manager and MariaDB run in one container: application UID1103, private SQL socket without port3306. Two observations are appended and read through native interfaces; the first survives clean stop and recreation in full. UUID, configuration, SQL credentials, provenance and datadir remain identical. One local replica without peers or activation authority; actors stopped and checked originals preserved. This does not prove replication or production availability.",
+        "es": "El manager real y MariaDB funcionan en un contenedor: aplicación UID1103, socket SQL privado sin puerto3306. Dos observaciones añadidas y leídas por interfaces nativas; la primera se conserva íntegra tras parada limpia y recreación. UUID, configuración, credenciales SQL, procedencia y datadir idénticos. Una réplica local sin pares ni autoridad de activación; actores parados y originales comprobados preservados. No demuestra replicación ni disponibilidad en producción."
+      }
+    },
+    {
+      "id": "canonical-manager-process-recovery",
+      "date": "2026-10-24",
+      "version": "Canonical MANAGER · explicit process recovery01d603f",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Manager : reprise explicite après SIGKILL et redo InnoDB",
+        "en": "Manager: explicit SIGKILL recovery and InnoDB redo",
+        "es": "Manager: recuperación explícita tras SIGKILL y redo InnoDB"
+      },
+      "summary": {
+        "fr": "Après validation d’un troisième fait, seul le nouveau conteneur de test reçoit SIGKILL. L’ancien acteur et ses enfants sont vérifiés absents avant la reprise explicite sur le même état, sans faux arrêt propre. InnoDB récupère 6 pages ; les trois faits sont retrouvés intégralement, puis un quatrième est écrit et relu. Identités, configuration, identifiants SQL et datadir sont conservés ; arrêt propre et préservation de l’existant contrôlés. Un seul essai sur la même VM : pas de HA automatique, quorum, panne physique, promotion ou production qualifiés.",
+        "en": "After a third fact is committed, only the new test container receives SIGKILL. The old actor and children are verified absent before explicit recovery on the same state, without a forged clean stop. InnoDB recovers 6 pages; all three facts are retained in full, then a fourth is written and read. Identities, configuration, SQL credentials and datadir are preserved; clean stop and checked-original preservation verified. One same-VM test: no qualified automatic HA, quorum, physical failure, promotion or production.",
+        "es": "Tras confirmar un tercer hecho, solo el nuevo contenedor de prueba recibe SIGKILL. Se comprueba ausencia del actor y sus hijos antes de recuperar explícitamente el mismo estado, sin fingir parada limpia. InnoDB recupera 6 páginas; los tres hechos se conservan íntegros y se escribe y lee un cuarto. Identidades, configuración, credenciales SQL y datadir conservados; parada limpia y preservación de originales comprobadas. Un ensayo en la misma VM: sin validar HA automática, quórum, fallo físico, promoción ni producción."
+      }
+    },
+    {
+      "id": "canonical-manager-logical-restore",
+      "date": "2026-10-24",
+      "version": "Canonical MANAGER · logical SQL restore01d603f",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Manager : restauration SQL vers une cible vide et reprise utile",
+        "en": "Manager: SQL restore into an empty target and useful restart",
+        "es": "Manager: restauración SQL en destino vacío y reinicio útil"
+      },
+      "summary": {
+        "fr": "Un export SQL cohérent est restauré dans une base privée indépendante et vide sur le même hôte. Les 5 tables, leurs 10 lignes et les 8 déclencheurs sont comparés intégralement avant utilisation ; aucune routine ni aucun événement présents. Après recréation, les 4 faits d’origine sont identiques, puis un cinquième est écrit et relu. UUID et configuration conservés ; identifiants SQL propres à la cible régénérés. Aucun fichier applicatif durable présent dans ce jeu. Source et cible arrêtées proprement, existant contrôlé préservé. Petit essai local : pas de déplacement interhôtes du manager, réplication, volumes arbitraires ou production qualifiés.",
+        "en": "A coherent SQL export is restored into an independent empty private database on the same host. All 5 tables, their 10 rows and 8 triggers match before use; no routines or events were present. After recreation, the 4 original facts remain identical, then a fifth is written and read. UUID and configuration retained; target-specific SQL credentials regenerated. No durable application payload file was present in this fixture. Source and target stopped cleanly, checked originals preserved. Small local test: no qualified cross-host manager move, replication, arbitrary volumes or production.",
+        "es": "Una exportación SQL coherente se restaura en una base privada independiente y vacía del mismo host. Las 5 tablas, sus 10 filas y 8 disparadores coinciden íntegramente antes del uso; no había rutinas ni eventos. Tras recreación, los 4 hechos originales permanecen idénticos y se escribe y lee un quinto. UUID y configuración conservados; credenciales SQL propias del destino regeneradas. Sin archivos aplicativos duraderos en este ensayo. Fuente y destino parados limpiamente, originales comprobados preservados. Pequeño ensayo local: sin validar traslado del manager entre hosts, replicación, volúmenes arbitrarios ni producción."
+      }
+    },
+    {
+      "id": "alpine-stem-cell-restart",
+      "date": "2026-10-24",
+      "version": "Existing Alpine stem cells · changed Maestro entrypoint",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Cellules Alpine : redémarrage sur le même état et arrêt normal de Maestro",
+        "en": "Alpine cells: same-state restart and normal Maestro stop",
+        "es": "Células Alpine: reinicio del mismo estado y parada normal de Maestro"
+      },
+      "summary": {
+        "fr": "Les cinq cellules existantes redémarrent sur leur état conservé, avec une seule image Maestro corrigée. TERM pendant une attente IPC réelle et INT pendant une attente temporisée se terminent avec code0. Dans la cellule, l’arrêt Podman normal de Maestro prend environ 0,087 seconde, sans SIGKILL. Les 2 tâches Queue terminées, le contenu Vault, le résultat de 152 octets, les marqueurs de planification et le préfixe Logger restent conservés, sans rejouer les producteurs. Tous les acteurs sont arrêtés et l’existant contrôlé préservé. Queue reste SQLite WAL, Vault reste en JSON clair et Bridge ne lance pas encore de vrai moteur : aucune inférence, chiffrement du coffre, restauration complète PMBS, HA ou production qualifiés.",
+        "en": "The five existing cells restart on their retained state with only one changed Maestro image. TERM during actual IPC waiting and INT during timed waiting both exit0. Within the cell, normal Podman stop of Maestro takes about 0.087 seconds without SIGKILL. The 2 completed Queue tasks, Vault contents, 152-byte result, schedule markers and Logger prefix are retained without replaying producers. All actors stopped and checked originals preserved. Queue remains SQLite WAL, Vault remains plaintext JSON and Bridge still does not invoke a real engine: no qualified inference, vault encryption, complete PMBS restore, HA or production.",
+        "es": "Las cinco células existentes reinician con su estado conservado y una sola imagen Maestro corregida. TERM durante espera IPC real e INT durante espera temporizada terminan con código0. En la célula, la parada Podman normal de Maestro tarda unos 0,087 segundos, sin SIGKILL. Se conservan las 2 tareas Queue terminadas, contenido Vault, resultado de 152 bytes, marcadores de planificación y prefijo Logger, sin repetir productores. Actores parados y originales comprobados preservados. Queue sigue en SQLite WAL, Vault en JSON sin cifrar y Bridge aún no llama a un motor real: sin validar inferencia, cifrado, restauración PMBS completa, HA ni producción."
+      }
+    },
+    {
+      "id": "pmbs-five-cell-state-restore",
+      "date": "2026-10-24",
+      "version": "PMBS30c8d21 · five-cell STATE adapter",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "PMBS : restauration des cinq cellules Alpine et opérations utiles",
+        "en": "PMBS: five Alpine cells restored and useful operations",
+        "es": "PMBS: restauración de cinco células Alpine y operaciones útiles"
+      },
+      "summary": {
+        "fr": "Une sauvegarde native de 8 fichiers, 13 chunks et 29 180 049 octets est restaurée depuis le serveur PMBS authentifié vers une destination absente. L’adaptateur d’état vérifie les cinq racines, tous les contenus sélectionnés et les métadonnées déclarées avant de démarrer les cinq cibles. Les 2 tâches Queue terminées, les valeurs Vault, le résultat de 152 octets, le préfixe Logger et les fichiers Maestro sont conservés. Une nouvelle écriture/lecture Vault et un nouvel événement Logger réussissent sur la cible. Les 17 contrôles indépendants passent ; cibles et serveur arrêtés, originaux contrôlés inchangés. Même hôte, images déjà en cache et état arrêté : pas de reprise sur hôte vierge, secours distant, volumes arbitraires ou attributs généraux qualifiés. Vault reste en clair, Queue sous SQLite et Bridge limité à sa santé, sans appel IA.",
+        "en": "A native backup of 8 files, 13 chunks and 29,180,049 bytes is restored from the authenticated PMBS server into an absent destination. The STATE adapter verifies all five roots, selected contents and declared metadata before starting five targets. The 2 completed Queue tasks, Vault values, 152-byte result, Logger prefix and Maestro files are retained. A new target Vault write/read and Logger event succeed. All 17 independent checks pass; targets and server stopped, checked originals unchanged. Same host, cached images and stopped state: no qualified cold-host recovery, remote disaster recovery, arbitrary volumes or general attributes. Vault remains plaintext, Queue uses SQLite and Bridge is health-only with no AI call.",
+        "es": "Una copia nativa de 8 archivos, 13 chunks y 29 180 049 bytes se restaura desde el servidor PMBS autenticado en un destino inexistente. El adaptador de estado verifica las cinco raíces, todos los contenidos seleccionados y metadatos declarados antes de iniciar cinco destinos. Se conservan las 2 tareas Queue terminadas, valores Vault, resultado de 152 bytes, prefijo Logger y archivos Maestro. Funcionan una nueva escritura/lectura Vault y un evento Logger. Pasan los 17 controles independientes; destinos y servidor parados, originales comprobados sin cambios. Mismo host, imágenes en caché y estado parado: sin validar recuperación en host vacío, recuperación remota, volúmenes arbitrarios ni atributos generales. Vault sigue sin cifrar, Queue usa SQLite y Bridge solo ofrece salud, sin llamada IA."
+      }
+    },
+    {
+      "id": "canonical-manager-peer-replication",
+      "date": "2026-10-24",
+      "version": "canonical-manager 01d603fa · native private SQL peers",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Managers : réplication native de deux faits dans les deux sens",
+        "en": "Managers: native two-way replication of two facts",
+        "es": "Managers: replicación nativa de dos hechos en ambos sentidos"
+      },
+      "summary": {
+        "fr": "Deux managers neufs, chacun avec sa MariaDB privée sans écoute TCP, échangent deux faits par le protocole natif authentifié. Chaque écriture est acquittée ; les historiques complets sont identiques, sans doublon, avec origines et séquences conservées. Les preuves réseau et reçus de commit se correspondent. Une assertion incorrecte du collecteur arrête ensuite le lot ; elle reste consignée, sans relance. Les deux unités sont arrêtées proprement et les contrôles de préservation des originaux passent. Deux répliques dans la même VM avec identités logiques de laboratoire : pas de domaines physiques distincts, de quorum à trois, de HA ni de qualification production. La recréation après réplication n’a pas été exécutée.",
+        "en": "Two fresh managers, each with private MariaDB and no SQL TCP listener, exchange two facts through the native authenticated protocol. Each write is acknowledged; complete histories match without duplicates, preserving origins and sequences. Network evidence links to commit receipts. An incorrect collector assertion then stops the lot; the error is retained without rerunning. Both units stop cleanly and original-state preservation checks pass. Two replicas in the same VM with logical laboratory host identities: no distinct physical failure domains, three-node quorum, HA or production qualification. Post-replication recreation was not executed.",
+        "es": "Dos managers nuevos, cada uno con MariaDB privada sin escucha SQL TCP, intercambian dos hechos mediante el protocolo nativo autenticado. Cada escritura se confirma; los historiales completos coinciden sin duplicados, conservando orígenes y secuencias. Las pruebas de red enlazan con los recibos de commit. Una aserción incorrecta del recolector detiene después el lote; el error se conserva sin repetirlo. Ambas unidades se paran correctamente y pasan los controles de preservación de los originales. Dos réplicas en la misma VM con identidades lógicas de laboratorio: sin dominios físicos distintos, quorum de tres, HA ni validación de producción. No se ejecutó la recreación posterior a la replicación."
+      }
+    },
+    {
+      "id": "canonical-manager-crossvm-rejoin",
+      "date": "2026-10-24",
+      "version": "canonical-manager 01d603fa · two-VM native facts",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Managers : réplication entre deux VM et reprise d’un pair",
+        "en": "Managers: two-VM replication and clean peer rejoin",
+        "es": "Managers: replicación entre dos VM y reincorporación de un par"
+      },
+      "summary": {
+        "fr": "Deux managers neufs, chacun avec MariaDB privée accessible par socket sans écoute SQL TCP, répliquent leurs faits par le protocole natif authentifié entre deux VM. Les deux premiers faits convergent sans doublon. Le second manager est arrêté et recréé avec les mêmes données, identité, configuration et identifiants ; ses deux faits sont conservés. Après reconnexion, un troisième fait est transmis avec origine et séquence intactes. Les historiques complets et les liens entre événements réseau et reçus de commit sont vérifiés. Les trois incarnations des conteneurs sont arrêtées proprement ; réseaux et écoutes du lot supprimés, originaux suivis préservés. Les deux VM partagent un hyperviseur : pas de domaine physique indépendant, quorum à trois, reprise après panne électrique, bascule automatique ou qualification production. Ce jalon porte sur les faits du manager, pas la réplication d’un univers NODE.",
+        "en": "Two fresh managers, each with private socket-only MariaDB and no SQL TCP listener, replicate facts through the native authenticated protocol across two VMs. The first two facts converge without duplicates. The second manager is stopped and recreated with the same data, identity, configuration and credentials; both facts survive. After rejoining, a third fact arrives with its origin and sequence intact. Complete histories and network-event/commit-receipt links are verified. All three container incarnations stop cleanly; owned networks/listeners are removed and tracked originals preserved. Both VMs share one hypervisor: no independent physical failure domain, three-node quorum, power-loss recovery, automatic failover or production qualification. This milestone covers manager facts, not NODE universe replication.",
+        "es": "Dos managers nuevos, cada uno con MariaDB privada por socket y sin escucha SQL TCP, replican hechos mediante el protocolo nativo autenticado entre dos VM. Los dos primeros hechos convergen sin duplicados. El segundo manager se para y recrea con los mismos datos, identidad, configuración y credenciales; conserva ambos hechos. Tras reconectarse recibe un tercer hecho con origen y secuencia intactos. Se verifican historiales completos y vínculos entre eventos de red y recibos de commit. Las tres instancias se paran correctamente; redes y escuchas propias eliminadas, originales seguidos preservados. Las dos VM comparten hipervisor: sin dominio físico independiente, quorum de tres, recuperación de corte eléctrico, conmutación automática ni validación de producción. El hito cubre hechos del manager, no replicación de universos NODE."
+      }
+    },
+    {
+      "id": "canonical-node-transfer-command",
+      "date": "2026-10-24",
+      "version": "logical-transfer 468cbe3 · native two-VM fixture",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "NODE : export et restauration natifs avec les quatre répertoires",
+        "en": "NODE: native export and restore with four bootstrap directories",
+        "es": "NODE: exportación y restauración nativas con cuatro directorios"
+      },
+      "summary": {
+        "fr": "La commande native exporte 40 tables et 5 lignes, un fichier témoin et les quatre répertoires de démarrage vides, puis restaure une cible neuve dans une autre VM. Schéma, données et métadonnées des répertoires sont comparés. L’adoption conserve le UUID logique, change la liaison machine et ajoute une ligne d’audit (6 lignes). Une nouvelle écriture applicative survit à une recréation ordinaire. Un export et une restauration, sans reprise manuelle ; 3 tests ciblés réussis et contre-regard Opus sans blocage. Acteurs du lot arrêtés, périmètre préexistant contrôlé préservé. Deux VM sur un même hyperviseur : pas de réplication continue, RAM, volumes arbitraires, HA ou qualification production.",
+        "en": "The native command exports 40 tables and 5 rows, one marker file and four empty bootstrap directories, then restores a fresh target in another VM. Schema, data and directory metadata are compared. Adoption retains the logical UUID, changes machine binding and adds one audit row (6 rows). A new application write survives ordinary recreation. One export and one restore, without manual substitution; 3 affected tests pass and Opus reports no blocker. Owned actors stopped and checked originals preserved. Two VMs share one hypervisor: no continuous replication, RAM, arbitrary volumes, HA or production qualification.",
+        "es": "El comando nativo exporta 40 tablas y 5 filas, un archivo testigo y cuatro directorios de arranque vacíos, y restaura un destino nuevo en otra VM. Se comparan esquema, datos y metadatos de directorios. La adopción conserva el UUID lógico, cambia la vinculación de máquina y añade una fila de auditoría (6 filas). Una nueva escritura aplicativa sobrevive a la recreación normal. Una exportación y una restauración, sin sustitución manual; 3 pruebas dirigidas pasan y Opus no encuentra bloqueos. Actores propios parados y originales comprobados preservados. Dos VM en un mismo hipervisor: sin replicación continua, RAM, volúmenes arbitrarios, HA ni validación de producción."
+      }
+    },
+    {
+      "id": "canonical-monthly-node-transfer",
+      "date": "2026-10-24",
+      "version": "monthly admin 05361fb · native integration dffb492",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "NODE : partitions mensuelles conservées après transfert",
+        "en": "NODE: monthly partitions retained after transfer",
+        "es": "NODE: particiones mensuales conservadas tras traslado"
+      },
+      "summary": {
+        "fr": "Un NODE neuf construit son seul journal observations en partitions mensuelles UTC. Un export cohérent de 40 tables et 9 lignes, un témoin et quatre répertoires vides est restauré dans une autre VM ; catalogue des partitions, clé et schéma sont conservés après recréation ordinaire. L’adoption ajoute une ligne d’audit (10 lignes). Une requête applicative vers une identité de qualification absente est rejouée sans nouvel effet métier ; une seconde requête sur la cible survit à une nouvelle recréation. Six conteneurs arrêtés proprement, périmètre préexistant suivi préservé. Même hyperviseur : pas de déplacement de charge réelle, réorganisation de partitions peuplées, réplication continue, HA ou qualification production.",
+        "en": "A fresh NODE constructs only its observations journal in monthly UTC partitions. A coherent export of 40 tables and 9 rows, a marker and four empty directories is restored into another VM; partition catalog, key and schema survive ordinary recreation. Adoption adds one audit row (10 rows). An application request targeting an absent qualification identity replays without a new business effect; a second target request survives another recreation. Six containers stopped cleanly and tracked originals preserved. Same hypervisor: no real workload move, populated-partition reorganization, continuous replication, HA or production qualification.",
+        "es": "Un NODE nuevo crea únicamente su diario observations en particiones mensuales UTC. Una exportación coherente de 40 tablas y 9 filas, un testigo y cuatro directorios vacíos se restaura en otra VM; catálogo, clave y esquema de particiones sobreviven a la recreación normal. La adopción añade una fila de auditoría (10 filas). Una petición aplicativa a una identidad de ensayo ausente se repite sin nuevo efecto de negocio; una segunda petición en destino sobrevive a otra recreación. Seis contenedores parados limpiamente, originales seguidos preservados. Mismo hipervisor: sin traslado de carga real, reorganización de particiones pobladas, replicación continua, HA ni validación de producción."
+      }
+    },
+    {
+      "id": "canonical-monthly-maintenance",
+      "date": "2026-10-24",
+      "version": "monthly admin 05361fb · restored-copy native maintenance",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Maintenance mensuelle : lignes et rejeu conservés",
+        "en": "Monthly maintenance: rows and replay retained",
+        "es": "Mantenimiento mensual: filas y repetición conservadas"
+      },
+      "summary": {
+        "fr": "Après restauration vérifiée dans une nouvelle copie, l’administration root réorganise une seule fois la partition future du journal observations pour créer décembre UTC. Les 10 lignes des 40 tables restent identiques avant/après ; les définitions des 39 autres tables sont inchangées. La ligne de décembre est déplacée dans sa partition et la partition future est conservée, sans purge. Le compte applicatif se voit refuser le DDL, puis écrit des observations tardives et futures. Le rejeu conserve le résultat métier initial ; une nouvelle requête et les écritures sont retrouvées après recréation ordinaire. Données sources et périmètre préexistant suivi préservés, acteurs du lot arrêtés. Essai borné au seul journal observations : pas de mois d’endurance réelle, partitionnement de toutes les tables, HA ou qualification production.",
+        "en": "After verified restoration into a new copy, root administration reorganizes the observations journal future partition once to create UTC December. All 10 rows across 40 tables match before and after; definitions of the other 39 tables remain unchanged. The December row moves into its partition while the future partition remains, without purge. The application account is denied DDL, then writes late and future observations. Replay retains the original business result; a new request and writes survive ordinary recreation. Source data and tracked originals preserved, owned actors stopped. Bounded observations-only test: no months of actual endurance, all-table partitioning, HA or production qualification.",
+        "es": "Tras restauración verificada en una copia nueva, la administración root reorganiza una sola vez la partición futura del diario observations para crear diciembre UTC. Las 10 filas de las 40 tablas coinciden antes y después; las definiciones de las otras 39 tablas siguen iguales. La fila de diciembre pasa a su partición y se conserva la futura, sin purga. Se deniega DDL al usuario aplicativo, que luego escribe observaciones tardías y futuras. La repetición conserva el resultado original; una petición nueva y las escrituras sobreviven a la recreación normal. Fuente y originales seguidos preservados, actores propios parados. Ensayo acotado a observations: sin meses de resistencia real, particionado de todas las tablas, HA ni validación de producción."
+      }
+    },
+    {
+      "id": "canonical-local-source-seal",
+      "date": "2026-10-24",
+      "version": "source seal d7b572f · scoped native restart exclusion",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Source scellée : redémarrages locaux refusés",
+        "en": "Sealed source: local restarts refused",
+        "es": "Fuente sellada: reinicios locales rechazados"
+      },
+      "summary": {
+        "fr": "Dans une nouvelle unité de laboratoire, un export SQL cohérent est suivi d’un arrêt propre puis d’un scellement local durable lié à l’export et à la naissance exacte de la source. Deux démarrages, normal et récupération, sont refusés avant la base et l’application ; les données, la configuration et le registre de naissance restent inchangés. Le marqueur reste conservé et tous les acteurs du lot sont arrêtés ; les états préexistants suivis sont préservés. Cette preuve porte sur l’exclusion du redémarrage local de la source. La restauration cible de ce parcours reste à vérifier ; aucune exclusion distribuée, HA, bascule de charge réelle ou qualification production n’en est déduite.",
+        "en": "In a new laboratory unit, a coherent SQL export is followed by clean shutdown and a durable local seal bound to the export and exact source birth. Ordinary and recovery startup both refuse before database/application launch; data, configuration and birth ledger stay unchanged. The seal remains retained and all owned actors are stopped; tracked originals are preserved. This proves local source restart exclusion only. Target restoration in this path remains unverified; no distributed exclusion, HA, real workload cutover or production qualification is inferred.",
+        "es": "En una unidad nueva de laboratorio, una exportación SQL coherente va seguida de parada limpia y sellado local duradero vinculado a la exportación y al nacimiento exacto de la fuente. Los arranques normal y de recuperación se rechazan antes de iniciar base y aplicación; datos, configuración y registro de nacimiento quedan iguales. Se conserva el sello, los actores propios están parados y los originales seguidos se preservan. Solo se demuestra exclusión del reinicio local de la fuente. La restauración destino de este recorrido queda por verificar; sin exclusión distribuida, HA, conmutación de carga real ni validación de producción."
+      }
+    },
+    {
+      "id": "canonical-sealed-source-target-restore",
+      "date": "2026-10-24",
+      "version": "source seal d7b572f · target restore 189",
+      "kind": "scoped-native-runtime",
+      "runtimePass": true,
+      "productionQualified": false,
+      "title": {
+        "fr": "Source scellée : restauration cible et reprise utile vérifiées",
+        "en": "Sealed source: target restore and useful restart verified",
+        "es": "Fuente sellada: restauración destino y reinicio útil verificados"
+      },
+      "summary": {
+        "fr": "Le bundle de la source scellée a été restauré une seule fois sur une nouvelle cible de laboratoire : 40 tables comparées, témoin et quatre répertoires conservés, identité physique adoptée et identifiants secrets recréés. L’application a écrit puis vérifié les protections antirejeu ; après recréation ordinaire, toutes les données et le schéma correspondent. La source reste scellée, les trois acteurs cible sont arrêtés et les 30 états préexistants suivis sont inchangés. Le pilote de test a signalé un arrêt parce qu’il comparait une étiquette de phase ; la vérification indépendante confirme que c’est la seule différence. Ce parcours démontre un transfert à froid local encadré, sans réplication continue, exclusion distribuée, bascule automatique ni qualification production.",
+        "en": "The sealed source bundle was restored once into a new laboratory target: 40 tables compared, witness and four directories retained, physical identity adopted and credentials regenerated. Application writes and replay protection were checked; after ordinary recreation, all data and schema match. The source remains sealed, all three target actors are stopped and 30 tracked original states are unchanged. The test driver reported a stop because it compared a phase label; independent verification confirms this is the only difference. This proves a supervised cold transfer only, with no continuous replication, distributed fencing, automatic failover or production qualification.",
+        "es": "El paquete de la fuente sellada se restauró una vez en un destino nuevo de laboratorio: 40 tablas comparadas, testigo y cuatro directorios conservados, identidad física adoptada y credenciales regeneradas. Se comprobaron escrituras y protección contra repetición; tras recreación normal coinciden datos y esquema. La fuente sigue sellada, los tres actores destino están parados y los 30 estados originales seguidos no cambian. El piloto indicó parada por comparar una etiqueta de fase; la verificación independiente confirma que es la única diferencia. Solo se demuestra transferencia en frío supervisada, sin replicación continua, exclusión distribuida, conmutación automática ni validación de producción."
+      }
+    }
+  ],
+  "updatedAtUTC": "2026-10-24T13:14:25.691564+00:00",
+  "updatePolicy": "Publish only verified evidence changes; preserve historical lab achievements and version boundaries; never count in-progress code as validated.",
+  "canonicalBoundary": {
+    "state": "not_qualified",
+    "title": {
+      "fr": "Canon : NODE et manager natifs démontrés, qualification globale ouverte",
+      "en": "Canonical boundary: native NODE and manager demonstrated, overall qualification open",
+      "es": "Canon: NODE y manager nativos demostrados, validación global abierta"
+    },
+    "summary": {
+      "fr": "Les pourcentages ci-dessous couvrent les critères affichés et les configurations testées en laboratoire. Ils ne mesurent pas la conformité complète au canon. La cible exige une MariaDB privée dans le même conteneur que chaque unité fonctionnelle, accessible par socket privé sans écoute TCP, avec identités, droits, persistance et restauration vérifiés.",
+      "en": "The percentages below cover the displayed criteria and tested lab configurations. They do not measure full canonical conformity. The target requires private MariaDB in the same container as each functional unit, accessed through a private socket without a TCP listener, with verified identities, permissions, persistence and restoration.",
+      "es": "Los porcentajes siguientes cubren los criterios mostrados y las configuraciones probadas en laboratorio. No miden la conformidad completa con el canon. El objetivo exige MariaDB privada en el mismo contenedor de cada unidad funcional, mediante socket privado sin escucha TCP, con identidades, permisos, persistencia y restauración verificados."
+    },
+    "gaps": {
+      "fr": [
+        "NODE et manager réunissent application et MariaDB privée : persistance propre et reprise explicite après crash sont observées. Le NODE a aussi une restauration PMBS et une adoption après transfert. Restauration complète de tous les états, partitionnement et exploitation globale restent ouverts.",
+        "MeshFS utilise encore SQLite pour les métadonnées expérimentales. Les résultats PMBS portent sur les contenus sauvegardés ; ils ne qualifient pas à eux seuls son état durable comme unité SHAPER autonome.",
+        "Les tables doivent être qualifiées selon leur usage, leur croissance et leur rétention sur plusieurs mois : partitions mensuelles UTC pour les historiques concernés, sans purger les protections contre les anciens rejeux. Un export SQL fidèle précède les changements de schéma."
+      ],
+      "en": [
+        "NODE and manager combine application and private MariaDB: clean persistence and explicit crash recovery are observed. NODE also has PMBS restore and post-transfer adoption evidence. Full declared-state restoration, partitioning and overall operations remain open.",
+        "MeshFS still uses SQLite for experimental metadata. PMBS results cover backed-up contents; they do not by themselves qualify its durable state as an autonomous SHAPER unit.",
+        "Tables need qualification by usage, growth and retention over months: monthly UTC partitions for applicable histories, without purging protections against old replays. A faithful SQL export precedes schema changes."
+      ],
+      "es": [
+        "NODE y manager reúnen aplicación y MariaDB privada: persistencia limpia y recuperación explícita tras fallo observadas. NODE también tiene pruebas de restauración PMBS y adopción tras traslado. Siguen pendientes restauración de todo estado declarado, particionado y operación global.",
+        "MeshFS aún usa SQLite para los metadatos experimentales. Los resultados PMBS cubren los contenidos copiados; por sí solos no validan su estado duradero como unidad SHAPER autónoma.",
+        "Hay que evaluar cada tabla por uso, crecimiento y retención durante meses: particiones mensuales UTC para los históricos correspondientes, sin eliminar protecciones contra repeticiones antiguas. Una exportación SQL fiel precede a los cambios de esquema."
+      ]
+    },
+    "proof": "canonical-boundary"
+  },
+  "currentMilestone": {
+    "state": "partial",
+    "proof": "canonical-sealed-source-target-restore",
+    "title": {
+      "fr": "Source scellée : restauration cible et reprise utile vérifiées",
+      "en": "Sealed source: target restore and useful restart verified",
+      "es": "Fuente sellada: restauración destino y reinicio útil verificados"
+    },
+    "summary": {
+      "fr": "Le bundle de la source scellée a été restauré une seule fois sur une nouvelle cible de laboratoire : 40 tables comparées, témoin et quatre répertoires conservés, identité physique adoptée et identifiants secrets recréés. L’application a écrit puis vérifié les protections antirejeu ; après recréation ordinaire, toutes les données et le schéma correspondent. La source reste scellée, les trois acteurs cible sont arrêtés et les 30 états préexistants suivis sont inchangés. Le pilote de test a signalé un arrêt parce qu’il comparait une étiquette de phase ; la vérification indépendante confirme que c’est la seule différence. Ce parcours démontre un transfert à froid local encadré, sans réplication continue, exclusion distribuée, bascule automatique ni qualification production.",
+      "en": "The sealed source bundle was restored once into a new laboratory target: 40 tables compared, witness and four directories retained, physical identity adopted and credentials regenerated. Application writes and replay protection were checked; after ordinary recreation, all data and schema match. The source remains sealed, all three target actors are stopped and 30 tracked original states are unchanged. The test driver reported a stop because it compared a phase label; independent verification confirms this is the only difference. This proves a supervised cold transfer only, with no continuous replication, distributed fencing, automatic failover or production qualification.",
+      "es": "El paquete de la fuente sellada se restauró una vez en un destino nuevo de laboratorio: 40 tablas comparadas, testigo y cuatro directorios conservados, identidad física adoptada y credenciales regeneradas. Se comprobaron escrituras y protección contra repetición; tras recreación normal coinciden datos y esquema. La fuente sigue sellada, los tres actores destino están parados y los 30 estados originales seguidos no cambian. El piloto indicó parada por comparar una etiqueta de fase; la verificación independiente confirma que es la única diferencia. Solo se demuestra transferencia en frío supervisada, sin replicación continua, exclusión distribuida, conmutación automática ni validación de producción."
+    },
+    "next": {
+      "fr": "Restent le moteur OpenCode réel du Bridge, la réplication complète des univers et les blocages MeshFS. Le transfert à froid vérifié ne vaut pas HA ni exclusion distribuée.",
+      "en": "The actual OpenCode Bridge engine, full universe replication and MeshFS blockers remain. Verified cold transfer does not qualify HA or distributed fencing.",
+      "es": "Quedan motor OpenCode real del Bridge, replicación completa de universos y bloqueos MeshFS. La transferencia en frío verificada no valida HA ni exclusión distribuida."
+    }
+  }
+}
