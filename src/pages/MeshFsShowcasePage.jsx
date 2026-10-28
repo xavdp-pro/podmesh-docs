@@ -230,6 +230,18 @@ export default function MeshFsShowcasePage() {
 
           {/* Navigation Controls */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Link to 28 Features Page */}
+            <Link
+              to="/fonctionnalites"
+              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-700/15 text-emerald-800 dark:text-emerald-300 border border-emerald-600/30 hover:bg-emerald-700 hover:text-white transition-all"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">
+                {locale === 'en' ? '28 Features' : locale === 'es' ? '28 Funcionalidades' : '28 Fonctionnalités'}
+              </span>
+              <span className="sm:hidden">28</span>
+            </Link>
+
             {/* Link to Universal Comparison Page */}
             <Link
               to="/comparatif"

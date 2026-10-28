@@ -5,6 +5,7 @@ import CockpitPage from './pages/CockpitPage'
 import TechnicalShowcasePage from './pages/TechnicalShowcasePage'
 import MeshFsShowcasePage from './pages/MeshFsShowcasePage'
 import MeshFsComparisonPage from './pages/MeshFsComparisonPage'
+import MeshFsFeaturesPage from './pages/MeshFsFeaturesPage'
 import PmbsShowcasePage from './pages/PmbsShowcasePage'
 import ValidationPage from './pages/ValidationPage'
 import FractalsPage from './pages/FractalsPage'
@@ -69,6 +70,9 @@ export default function App() {
           <Route path="/pmbs" element={<PmbsShowcasePage />} />
           <Route path="/backup" element={<PmbsShowcasePage />} />
           <Route path="/meshfs" element={<MeshFsShowcasePage />} />
+          <Route path="/fonctionnalites" element={<MeshFsFeaturesPage />} />
+          <Route path="/features" element={<MeshFsFeaturesPage />} />
+          <Route path="/specs" element={<MeshFsFeaturesPage />} />
           <Route path="/comparatif" element={<MeshFsComparisonPage />} />
           <Route path="/compare" element={<MeshFsComparisonPage />} />
           <Route path="/vs" element={<MeshFsComparisonPage />} />
