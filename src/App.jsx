@@ -4,6 +4,7 @@ import { I18nProvider } from './i18n/I18nProvider'
 import CockpitPage from './pages/CockpitPage'
 import TechnicalShowcasePage from './pages/TechnicalShowcasePage'
 import MeshFsShowcasePage from './pages/MeshFsShowcasePage'
+import MeshFsComparisonPage from './pages/MeshFsComparisonPage'
 import PmbsShowcasePage from './pages/PmbsShowcasePage'
 import ValidationPage from './pages/ValidationPage'
 import FractalsPage from './pages/FractalsPage'
@@ -68,6 +69,11 @@ export default function App() {
           <Route path="/pmbs" element={<PmbsShowcasePage />} />
           <Route path="/backup" element={<PmbsShowcasePage />} />
           <Route path="/meshfs" element={<MeshFsShowcasePage />} />
+          <Route path="/comparatif" element={<MeshFsComparisonPage />} />
+          <Route path="/compare" element={<MeshFsComparisonPage />} />
+          <Route path="/vs" element={<MeshFsComparisonPage />} />
+          <Route path="/meshfs/comparatif" element={<MeshFsComparisonPage />} />
+          <Route path="/meshfs/compare" element={<MeshFsComparisonPage />} />
           <Route path="/admin" element={<CockpitPage />} />
           <Route path="/cockpit" element={<CockpitPage />} />
           <Route path="/exploitation" element={<CockpitPage />} />

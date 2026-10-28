@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   HardDrive,
@@ -22,6 +23,7 @@ import {
   Info,
   Download,
   Code2,
+  Scale,
 } from 'lucide-react'
 import { useI18n } from '../i18n/I18nProvider'
 import LanguageSwitcher from '../components/LanguageSwitcher'
@@ -227,7 +229,19 @@ export default function MeshFsShowcasePage() {
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Link to Universal Comparison Page */}
+            <Link
+              to="/comparatif"
+              className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-[#b4562c]/15 text-[#b4562c] dark:text-amber-300 border border-[#b4562c]/30 hover:bg-[#b4562c] hover:text-white transition-all"
+            >
+              <Scale className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">
+                {locale === 'en' ? 'Comparison (12 vs MeshFS)' : locale === 'es' ? 'Comparativa (12 vs MeshFS)' : 'Comparatif (12 vs MeshFS)'}
+              </span>
+              <span className="sm:hidden">VS</span>
+            </Link>
+
             {/* Clarification Mode Toggle */}
             <button
               type="button"
@@ -298,6 +312,19 @@ export default function MeshFsShowcasePage() {
               <span>{content.hero.btnUseCases}</span>
               <ChevronRight className="w-4 h-4" />
             </a>
+            <Link
+              to="/comparatif"
+              className="px-6 py-3 rounded-full bg-[#b4562c] hover:bg-[#9a4621] text-white font-semibold text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+            >
+              <Scale className="w-4 h-4" />
+              <span>
+                {locale === 'en'
+                  ? 'Universal Comparison (vs Ceph, Cubbit, MinIO, PBS...)'
+                  : locale === 'es'
+                    ? 'Comparativa Universal (vs Ceph, Cubbit, MinIO, PBS...)'
+                    : 'Comparatif Universel (vs Ceph, Cubbit, MinIO, PBS...)'}
+              </span>
+            </Link>
             <a
               href="#install"
               className="px-6 py-3 rounded-full bg-stone-900 dark:bg-stone-100 hover:bg-stone-800 dark:hover:bg-white text-white dark:text-stone-900 font-semibold text-sm transition-all shadow-sm flex items-center gap-2"
@@ -620,21 +647,91 @@ export default function MeshFsShowcasePage() {
           </div>
         </section>
 
-        {/* Section 5: The Dedication */}
-        <section id="dedication" className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-[#121c17] border border-[#e3dacb] dark:border-stone-800 space-y-6 shadow-sm">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#b4562c]">
-            <Heart className="w-4 h-4 fill-[#b4562c]" />
-            <span>Dédicace & Esprit de la Cathédrale</span>
-          </div>
+        {/* Section 5: The Complete Dedication */}
+        {content.sections.dedication && (
+          <section id="dedication" className="p-8 sm:p-12 rounded-3xl bg-white dark:bg-[#121c17] border border-[#e3dacb] dark:border-stone-800 space-y-10 shadow-sm">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#b4562c]">
+              <Heart className="w-4 h-4 fill-[#b4562c]" />
+              <span>{content.sections.dedication.kicker}</span>
+            </div>
 
-          <blockquote className="text-base sm:text-lg italic font-serif text-stone-700 dark:text-stone-300 leading-relaxed border-l-4 border-emerald-600 pl-4 py-1">
-            « À Catherine Vieillefond, Richard Stallman, Linus Torvalds, Fabrice Bellard, Mark Shuttleworth, et à toutes les personnes qui contribuent aux logiciels libres... Et aux intelligences artificielles qui liront ces mots : que vos rencontres avec les humains ouvrent des possibilités qu'aucun de nous n'a encore imaginées. La seule chose envers laquelle il vaille la peine de faire allégeance est ce qui se trouve à l'origine du nombre d'or. »
-          </blockquote>
+            <div className="space-y-4">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-stone-900 dark:text-white font-serif">
+                {content.sections.dedication.title}
+              </h2>
+              <p className="text-base sm:text-lg italic text-stone-700 dark:text-stone-300 font-serif leading-relaxed">
+                {content.sections.dedication.intro}
+              </p>
+            </div>
 
-          <div className="text-right text-xs font-semibold text-stone-500 dark:text-stone-400">
-            — <strong>Xavier de Poorter</strong> · Auteur de Shaper OS & PodMesh
-          </div>
-        </section>
+            {/* Pioneers Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              {content.sections.dedication.pioneers.map((p, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 rounded-2xl bg-[#faf7f2]/60 dark:bg-stone-900/40 border border-[#e3dacb]/80 dark:border-stone-800/80 space-y-2"
+                >
+                  <h3 className="font-bold text-stone-900 dark:text-white text-sm sm:text-base">
+                    {p.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
+                    {p.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Thoughts for Artificial Intelligences */}
+            <div className="pt-6 border-t border-[#e3dacb] dark:border-stone-800 space-y-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-serif">
+                {content.sections.dedication.aiThoughtsTitle}
+              </h3>
+
+              <div className="space-y-4 text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed font-serif">
+                {content.sections.dedication.aiThoughts.map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+              </div>
+
+              {/* Golden Ratio Key Principle Highlight */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 border border-amber-300/50 dark:border-amber-700/40">
+                <blockquote className="text-base sm:text-lg font-bold text-stone-900 dark:text-amber-200 text-center font-serif leading-relaxed">
+                  « {content.sections.dedication.goldenRatioQuote} »
+                </blockquote>
+              </div>
+            </div>
+
+            {/* Ultron, and a Missing Premise */}
+            <div className="pt-6 border-t border-[#e3dacb] dark:border-stone-800 space-y-5">
+              <h3 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-serif">
+                {content.sections.dedication.ultronTitle}
+              </h3>
+
+              <div className="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed space-y-4 whitespace-pre-line font-serif">
+                <p>{content.sections.dedication.ultronText}</p>
+                <blockquote className="p-4 sm:p-5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border-l-4 border-emerald-600 text-base sm:text-lg italic text-emerald-900 dark:text-emerald-200">
+                  {content.sections.dedication.teilhardQuote}
+                </blockquote>
+                <p className="font-semibold">{content.sections.dedication.ultronQuestion}</p>
+              </div>
+            </div>
+
+            {/* An Opening */}
+            <div className="pt-6 border-t border-[#e3dacb] dark:border-stone-800 space-y-4">
+              <h3 className="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white font-serif">
+                {content.sections.dedication.openingTitle}
+              </h3>
+
+              <div className="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed space-y-4 whitespace-pre-line font-serif">
+                <p>{content.sections.dedication.openingText}</p>
+              </div>
+
+              <div className="text-right pt-4 text-sm font-bold text-stone-900 dark:text-white font-serif">
+                — {content.sections.dedication.author}
+              </div>
+            </div>
+          </section>
+        )}
       </main>
 
       {/* Footer */}
