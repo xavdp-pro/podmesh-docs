@@ -1,7 +1,7 @@
 {
   "name": "podmesh-docs",
-  "version": "2.3.0",
-  "description": "PodMesh Documentation & Interactive 2D/3D Fractal Cathedral Didactic Showcase (v2.3.0)",
+  "version": "2.4.0",
+  "description": "PodMesh Documentation & Interactive 2D/3D Fractal Cathedral Didactic Showcase (v2.4.0)",
   "private": false,
   "type": "module",
   "engines": {
