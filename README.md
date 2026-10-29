@@ -1,8 +1,8 @@
-# PodMesh Documentation & Interactive 2D/3D Fractal Cathedral Showcase (`podmesh-docs` v2.4.0)
+# PodMesh Documentation & Interactive 2D/3D Fractal Cathedral Showcase (`podmesh-docs` v2.4.1)
 
 **Official Public Documentation Portal & Didactic Simulator (`https://podmesh.xavdp.pro`)**
 
-`podmesh-docs` is the public documentation and interactive architectural showcase for **PodMesh** (the sovereign distributed container, Btrfs `@spaces`, and MeshFS orchestration engine). Transitioning from the experimental v2.3.0 demonstrator, **v2.4.0** showcases the universal multi-platform architecture (Proxmox VE + TrueNAS + Synology + Windows + Podman), FastCDC / BLAKE3 atomic chunk ingestion, and WireGuard Dual-Hub resilience without SPOF.
+`podmesh-docs` is the public documentation and interactive architectural showcase for **PodMesh** (the sovereign distributed container, Btrfs `@spaces`, and MeshFS orchestration engine). Transitioning from the experimental v2.3.0 demonstrator, **v2.4.1** showcases the universal multi-platform architecture (Proxmox VE + TrueNAS + Synology + Windows + Podman), FastCDC / BLAKE3 atomic chunk ingestion, and WireGuard Dual-Hub resilience without SPOF.
 
 ---
 

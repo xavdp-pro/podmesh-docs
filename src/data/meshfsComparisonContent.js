@@ -243,7 +243,7 @@ export const meshfsComparisonContent = {
           geek:
             'Ceph sépare RADOS, RBD, CephFS et RGW sans déduplication globale par contenu (SHA-256). En cas de coupure électrique sur un cluster 3 nœuds, la perte du quorum MON/Paxos bloque les I/O. MeshFS utilise des chunks CAS 4 Mio immuables + bail Single-Writer à epoch monotone : zéro quorum lourd, réparation P2P directe en HTTP/UDS.',
           agent:
-            'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified SHA-256 CAS across FUSE, PVE, Podman, S3, and PMBS.',
+            'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified BLAKE3 CAS across FUSE, PVE, Podman, S3, and PMBS.',
         },
         {
           id: 'cubbit',
@@ -343,7 +343,7 @@ export const meshfsComparisonContent = {
           human:
             'Longhorn et Rook vous obligent à construire une centrale nucléaire (Kubernetes) juste pour partager un dossier entre deux conteneurs. Avec MeshFS, Podman et Docker ont directement leur plugin de volume branché sur le stockage dédupliqué, sans aucune lourdeur.',
           geek:
-            'Qualifié au Stage 14 : `/run/docker/plugins/meshfs.sock` et `/etc/docker/plugins/meshfs.spec` implémentent `Plugin.Activate`, `VolumeDriver.Create` (avec `-o size=20M` converti en quota CAS), `Mount` (matérialisation 4 Mio depuis le CAS) et `Unmount` (chunking FastCDC automatique + scellement Merkle `sha256:...`). Zéro Kubernetes requis.',
+            'Qualifié au Stage 14 : `/run/docker/plugins/meshfs.sock` et `/etc/docker/plugins/meshfs.spec` implémentent `Plugin.Activate`, `VolumeDriver.Create` (avec `-o size=20M` converti en quota CAS), `Mount` (matérialisation 4 Mio depuis le CAS) et `Unmount` (chunking FastCDC automatique + scellement Merkle `blake3:...`). Zéro Kubernetes requis.',
           agent:
             'INVARIANT [K8S-CSI-VS-MESHFS]: Longhorn/Rook require full Kubernetes + CSI control plane (>4 GB RAM). MeshFS natively serves Docker/Podman VolumeDriver v1.2 over `/run/docker/plugins/meshfs.sock` inside the 12 MB Rust daemon.',
         },
@@ -396,7 +396,7 @@ export const meshfsComparisonContent = {
           geek:
             'Dans l’architecture Shaper OS (et `podmesh-installer`), Btrfs gère les sous-volumes locaux (`@meshfs_cas`, `@pmbs_backups`) avec checksums matériels NVMe, tandis que MeshFS apporte par-dessus la fédération P2P WireGuard, la déduplication CAS SHA-256 inter-nœuds, le VolumeDriver Podman et le serveur S3 WORM sans aucune base Redis/SQL externe.',
           agent:
-            'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed SHA-256 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
+            'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed BLAKE3 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
         },
       ],
     },
@@ -436,7 +436,7 @@ export const meshfsComparisonContent = {
     },
     unificationBanner: {
       kicker: 'The Architectural Singularity of MeshFS v2.3.0',
-      title: '1 Shared CAS Pool (4 MiB FastCDC SHA-256) = 6 Unified Zero-Copy Workloads',
+      title: '1 Shared CAS Pool (4 MiB FastCDC BLAKE3) = 6 Unified Zero-Copy Workloads',
       desc: 'Where conventional stacks force you to pile up 4 or 5 incompatible daemons that duplicate your bytes on disk and exhaust your RAM, MeshFS v2.3.0 shares the exact same immutable cryptographic building block across every protocol:',
       pillars: [
         {
@@ -653,7 +653,7 @@ export const meshfsComparisonContent = {
           geek:
             'Ceph separates RADOS, RBD, CephFS, and RGW without content-addressed SHA-256 deduplication. MeshFS uses immutable 4 MiB CAS chunks + monotonic epoch Single-Writer leases: zero heavy Paxos quorum, direct P2P repair over HTTP/UDS.',
           agent:
-            'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified SHA-256 CAS across FUSE, PVE, Podman, S3, and PMBS.',
+            'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified BLAKE3 CAS across FUSE, PVE, Podman, S3, and PMBS.',
         },
         {
           id: 'cubbit',
@@ -783,7 +783,7 @@ export const meshfsComparisonContent = {
           whatItDoesWell:
             'Excellent CLI backup tools using Content-Defined Chunking (CDC) and encryption toward remote or S3 repositories.',
           whereMeshFsWins:
-            'Borg, Restic, and Kopia only chunk data when a backup job runs. In MeshFS + PMBS, your live production volumes ALREADY live as 4 MiB SHA-256 CAS chunks! Backups are therefore O(1) and zero-copy. Even better: `podmesh-meshfs-s3` can serve as a WORM-locked, deduplicated S3 backend for your existing Restic/Borg scripts!',
+            'Borg, Restic, and Kopia only chunk data when a backup job runs. In MeshFS + PMBS, your live production volumes ALREADY live as 4 MiB BLAKE3 CAS chunks! Backups are therefore O(1) and zero-copy. Even better: `podmesh-meshfs-s3` can serve as a WORM-locked, deduplicated S3 backend for your existing Restic/Borg scripts!',
           human:
             'Borg and Restic are great backup tools, but they only work after the fact. With MeshFS, your live data is already chunked and verified continuously — and you can also point Restic or Borg to MeshFS-S3!',
           geek:
@@ -806,7 +806,7 @@ export const meshfsComparisonContent = {
           geek:
             'In Shaper OS, Btrfs manages local NVMe subvolumes (`@meshfs_cas`, `@pmbs_backups`), while MeshFS layers WireGuard P2P federation, cross-node SHA-256 deduplication, the Podman VolumeDriver, and the WORM S3 gateway with zero external Redis/SQL dependencies.',
           agent:
-            'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed SHA-256 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
+            'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed BLAKE3 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
         },
       ],
     },
@@ -1063,7 +1063,7 @@ export const meshfsComparisonContent = {
           geek:
             'Ceph separa RADOS, RBD, CephFS y RGW sin deduplicación global SHA-256. MeshFS usa bloques CAS inmutables de 4 MiB + arrendamiento Single-Writer con época monótona y reparación P2P directa.',
           agent:
-            'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified SHA-256 CAS across FUSE, PVE, Podman, S3, and PMBS.',
+            'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified BLAKE3 CAS across FUSE, PVE, Podman, S3, and PMBS.',
         },
         {
           id: 'cubbit',
@@ -1216,7 +1216,7 @@ export const meshfsComparisonContent = {
           geek:
             'En Shaper OS, Btrfs gestiona los subvolúmenes NVMe locales (`@meshfs_cas`, `@pmbs_backups`), mientras MeshFS añade encima la federación P2P WireGuard, deduplicación SHA-256 entre nodos, el VolumeDriver Podman y la pasarela S3 WORM sin bases Redis/SQL externas.',
           agent:
-            'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed SHA-256 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
+            'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed BLAKE3 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
         },
       ],
     },

@@ -360,7 +360,7 @@ export default function TechnicalShowcasePage() {
       "rowId": "row-a1b2c3d4",
       "klass": "boutique_woocommerce",
       "matrix": "univ-shaper-core/base-debian13:443dedd",
-      "digest": "sha256:958e0b74a1c3f8b2d4e6a7c8b9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8",
+      "digest": "blake3:958e0b74a1c3f8b2d4e6a7c8b9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8",
       "params": { "client_slug": "boulangerie_dupont", "quota_ram_mb": 512 }
     }
   ],
@@ -373,7 +373,7 @@ set -euo pipefail
 ROW_ID="$1"; CLASS="$2"; MATRIX="$3"; DIGEST="$4"
 # Vérification d'intégrité avant tout travail :
 REAL_DIGEST=$(sha256sum "/var/lib/podmesh/matrices/\${MATRIX}.tar" | awk '{print $1}')
-[[ "sha256:\${REAL_DIGEST}" == "\${DIGEST}" ]] || exit 3
+[[ "blake3:\${REAL_DIGEST}" == "\${DIGEST}" ]] || exit 3
 podman create --userns=auto --cgroups=split --memory=\${SHAPER_PARAM_QUOTA_RAM_MB}m "\${MATRIX}"`
                             : activeStrate === '0'
                             ? `# Strate 0 Sovereign Manager : Relocalisation à chaud 42ms
@@ -496,7 +496,7 @@ network: veth-podmesh-prod <-> br-client-isolated`}
                 </div>
               </section>
 
-              {/* SHA-256 CAS & Remote Sync Dual Column */}
+              {/* BLAKE3 CAS & Remote Sync Dual Column */}
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="rounded-2xl border border-line bg-surface p-6 shadow-xs space-y-3">
                   <div className="flex items-center gap-2">

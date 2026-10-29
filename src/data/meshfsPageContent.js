@@ -185,7 +185,7 @@ export const meshfsContent = {
           ],
         },
         geek: {
-          lead: 'MeshFS assemble la fine fleur des primitives éprouvées de Linux : FUSE 3, FastCDC, SHA-256 CAS, Merkle CoW, WireGuard in-kernel et Btrfs.',
+          lead: 'MeshFS assemble la fine fleur des primitives éprouvées de Linux : FUSE 3, FastCDC, BLAKE3 CAS, Merkle CoW, WireGuard in-kernel et Btrfs.',
           specs: [
             { label: 'Granularité CAS', value: '4 MiB (FastCDC dynamique)' },
             { label: 'Signature d’Intégrité', value: 'SHA-256 bit-exact sur chaque chunk' },

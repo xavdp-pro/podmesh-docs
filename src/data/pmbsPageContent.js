@@ -163,7 +163,7 @@ export const pmbsContent = {
       rows: [
         ['Langage & Runtime', 'Pure Rust v2.3.0 (Statique 8,9 Mo)', 'Rust + C + Dépendances Proxmox lourdes', 'Python + Extensions C', 'Go (Runtime avec GC)'],
         ['Consommation RAM à vide', '< 2 Mo (Mesuré 852 Ko)', '400 Mo à 1 Go', '50 Mo à 200 Mo', '100 Mo à 500 Mo'],
-        ['Découpage & Déduplication', 'CAS 4 Mo FastCDC SHA-256 déterministe', 'CAS dynamique Zstandard/SHA-256', 'Découpage variable (Borg chunker)', 'CDC variable (Rabin / Buzhash)'],
+        ['Découpage & Déduplication', 'CAS 4 Mo FastCDC BLAKE3 déterministe', 'CAS dynamique Zstandard/SHA-256', 'Découpage variable (Borg chunker)', 'CDC variable (Rabin / Buzhash)'],
         ['Intégration Stockage Vif', 'Directe & Zéro-Transit avec MeshFS', 'Aucune synergie directe (transfert réseau complet)', 'Aucune (fichiers locaux ou SSH)', 'Aucune (dépôt externe S3/SFTP)'],
         ['Audit d\'intégrité O(1)', 'Op 10 natif via Arbre Merkle scellé', 'Verify Job long et consommateur d\'I/O', 'borg check (parcours complet lent)', 'restic check (vérification lente)'],
         ['Chiffrement à la volée', 'AES-256-GCM (1,48 Go/s) / ChaCha20', 'AES-256-GCM / ChaCha20', 'AES-256-CTR + HMAC-SHA256', 'ChaCha20-Poly1305 / AES-256-CTR'],
@@ -310,7 +310,7 @@ pmbs status --remote http://127.0.0.1:8007`,
       rows: [
         ['Language & Runtime', 'Pure Rust v2.3.0 (Static 8.9MB)', 'Rust + C + Proxmox heavy stack', 'Python + C Extensions', 'Go (Runtime with GC)'],
         ['Idle RAM Footprint', '< 2MB (Measured 852KB)', '400MB to 1GB', '50MB to 200MB', '100MB to 500MB'],
-        ['Chunking & Deduplication', 'Deterministic 4MB FastCDC SHA-256', 'Dynamic Zstandard/SHA-256 CAS', 'Variable chunker', 'Variable CDC (Rabin/Buzhash)'],
+        ['Chunking & Deduplication', 'Deterministic 4MB FastCDC BLAKE3', 'Dynamic Zstandard/BLAKE3 CAS', 'Variable chunker', 'Variable CDC (Rabin/Buzhash)'],
         ['Live Storage Synergy', 'Native Zero-Transit with MeshFS', 'None (full network re-transfer)', 'None (local files or SSH)', 'None (external S3/SFTP repo)'],
         ['O(1) Integrity Audit', 'Native Op 10 via sealed Merkle tree', 'Slow I/O-heavy verify job', 'borg check (slow full scan)', 'restic check (slow scan)'],
         ['On-the-Fly Encryption', 'AES-256-GCM (1.48 GB/s) / ChaCha20', 'AES-256-GCM / ChaCha20', 'AES-256-CTR + HMAC-SHA256', 'ChaCha20-Poly1305 / AES-256-CTR'],
