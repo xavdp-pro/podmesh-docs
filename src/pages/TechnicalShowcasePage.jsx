@@ -372,7 +372,7 @@ export default function TechnicalShowcasePage() {
 set -euo pipefail
 ROW_ID="$1"; CLASS="$2"; MATRIX="$3"; DIGEST="$4"
 # Vérification d'intégrité avant tout travail :
-REAL_DIGEST=$(sha256sum "/var/lib/podmesh/matrices/\${MATRIX}.tar" | awk '{print $1}')
+REAL_DIGEST=$(b3sum "/var/lib/podmesh/matrices/\${MATRIX}.tar" | awk '{print $1}')
 [[ "blake3:\${REAL_DIGEST}" == "\${DIGEST}" ]] || exit 3
 podman create --userns=auto --cgroups=split --memory=\${SHAPER_PARAM_QUOTA_RAM_MB}m "\${MATRIX}"`
                             : activeStrate === '0'

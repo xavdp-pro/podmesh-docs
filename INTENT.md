@@ -1,4 +1,4 @@
-# Intent — PodMesh Documentation & Interactive 2D/3D Fractal Cathedral Didactic Showcase (`podmesh-docs` v2.3.0)
+# Intent — PodMesh Documentation & Interactive 2D/3D Fractal Cathedral Didactic Showcase (`podmesh-docs` v2.4.1)
 
 Status: Canonical SHAPER PHOENIX public documentation intent, 2026-10-27.
 Owner: Xavier de Poorter.
@@ -9,7 +9,7 @@ Provide the official public documentation portal and interactive 2D/3D Fractal C
 
 ## Why `podmesh-docs` Is Separated
 
-Under the SHAPER PHOENIX v2.3.0 architecture, `podmesh-docs` (`DIFFUSION/PUBLIC/podmesh-docs`) is cleanly separated from the private operator control tower (`DIFFUSION/PRIVATE/podmesh-cockpit`):
+Under the SHAPER PHOENIX v2.4.1 architecture, `podmesh-docs` (`DIFFUSION/PUBLIC/podmesh-docs`) is cleanly separated from the private operator control tower (`DIFFUSION/PRIVATE/podmesh-cockpit`):
 
 1. **Zero Administrative Exposure**:
    - External visitors, evaluators, and open-source adopters browsing `https://podmesh.xavdp.pro` receive an immediate, unauthenticated, 100% read-only technical showcase (`TechnicalShowcasePage` at `/`) and interactive 2D/3D Fractal Cathedral didactic simulator (`FractalsPage` at `/cathedrale`).

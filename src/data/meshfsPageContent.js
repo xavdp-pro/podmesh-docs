@@ -9,7 +9,7 @@ export const clarificationGlossary = {
     cas: {
       term: 'CAS (Content Addressable Storage)',
       short: 'Stockage adressé par le contenu',
-      desc: 'Au lieu de donner un nom arbitraire à un bloc de données, son nom EST son empreinte numérique unique (hachage SHA-256). Deux fichiers ayant le même contenu génèrent le même bloc : la déduplication est donc automatique et mathématiquement parfaite.',
+      desc: 'Au lieu de donner un nom arbitraire à un bloc de données, son nom EST son empreinte numérique unique (hachage BLAKE3). Deux fichiers ayant le même contenu génèrent le même bloc : la déduplication est donc automatique et mathématiquement parfaite.',
     },
     fastcdc: {
       term: 'FastCDC',
@@ -39,7 +39,7 @@ export const clarificationGlossary = {
     selfhealing: {
       term: 'Auto-guérison (Self-Healing)',
       short: 'Récupération autonome des blocs',
-      desc: 'Si un bloc est endommagé ou qu\'un disque tombe, le nœud local détecte immédiatement l\'écart grâce au SHA-256 et télécharge la copie saine auprès des pairs en quelques millisecondes.',
+      desc: 'Si un bloc est endommagé ou qu\'un disque tombe, le nœud local détecte immédiatement l\'écart grâce au BLAKE3 et télécharge la copie saine auprès des pairs en quelques millisecondes.',
     },
     btrfs: {
       term: 'Btrfs Copy-on-Write (CoW)',
@@ -51,7 +51,7 @@ export const clarificationGlossary = {
     cas: {
       term: 'CAS (Content Addressable Storage)',
       short: 'Content Addressable Storage',
-      desc: 'Instead of assigning an arbitrary filename to a block, its address IS its cryptographic SHA-256 hash. Identical blocks share the same identifier, making deduplication automatic and mathematically flawless.',
+      desc: 'Instead of assigning an arbitrary filename to a block, its address IS its cryptographic BLAKE3 hash. Identical blocks share the same identifier, making deduplication automatic and mathematically flawless.',
     },
     fastcdc: {
       term: 'FastCDC',
@@ -81,7 +81,7 @@ export const clarificationGlossary = {
     selfhealing: {
       term: 'Self-Healing Storage',
       short: 'Autonomous Block Restoration',
-      desc: 'If a local block becomes corrupted or missing, the node detects hash divergence via SHA-256 and silently fetches a healthy replica from peers within milliseconds.',
+      desc: 'If a local block becomes corrupted or missing, the node detects hash divergence via BLAKE3 and silently fetches a healthy replica from peers within milliseconds.',
     },
     btrfs: {
       term: 'Btrfs Copy-on-Write (CoW)',
@@ -93,7 +93,7 @@ export const clarificationGlossary = {
     cas: {
       term: 'CAS (Content Addressable Storage)',
       short: 'Almacenamiento direccionado por contenido',
-      desc: 'En lugar de nombres arbitrarios, la dirección de cada bloque es su hash SHA-256. Bloques idénticos comparten el mismo identificador, garantizando deduplicación nativa y matemáticamente perfecta.',
+      desc: 'En lugar de nombres arbitrarios, la dirección de cada bloque es su hash BLAKE3. Bloques idénticos comparten el mismo identificador, garantizando deduplicación nativa y matemáticamente perfecta.',
     },
     fastcdc: {
       term: 'FastCDC',
@@ -123,7 +123,7 @@ export const clarificationGlossary = {
     selfhealing: {
       term: 'Auto-curación (Self-Healing)',
       short: 'Recuperación autónoma de bloques',
-      desc: 'Si un bloque se corrompe o falta, el nodo detecta la discrepancia por SHA-256 y descarga la copia sana desde otro nodo en milisegundos.',
+      desc: 'Si un bloque se corrompe o falta, el nodo detecta la discrepancia por BLAKE3 y descarga la copia sana desde otro nodo en milisegundos.',
     },
     btrfs: {
       term: 'Btrfs Copy-on-Write (CoW)',
@@ -188,16 +188,16 @@ export const meshfsContent = {
           lead: 'MeshFS assemble la fine fleur des primitives éprouvées de Linux : FUSE 3, FastCDC, BLAKE3 CAS, Merkle CoW, WireGuard in-kernel et Btrfs.',
           specs: [
             { label: 'Granularité CAS', value: '4 MiB (FastCDC dynamique)' },
-            { label: 'Signature d’Intégrité', value: 'SHA-256 bit-exact sur chaque chunk' },
+            { label: 'Signature d’Intégrité', value: 'BLAKE3 bit-exact sur chaque chunk' },
             { label: 'Débit FUSE local mesuré', value: '106 Mo/s (fdatasync saturation fil)' },
             { label: 'Débit NVMe sous-jacent', value: '895 Mo/s sur stockage Btrfs' },
             { label: 'Reconstruction d’un chunk', value: '36 ms (stream réseau P2P)' },
             { label: 'Temps d’auto-guérison', value: '0.64 s (réparation 16 Mo corrompus)' },
             { label: 'Empreinte Mémoire', value: '< 16 Mo de RAM par daemon' },
           ],
-          codeTitle: 'Arborescence du Pool CAS (/var/lib/meshfs-pool)',
-          code: `/var/lib/meshfs-pool/
-├── cas_chunks/               # Chunks immuables 4 Mo hachés en SHA-256
+          codeTitle: 'Arborescence du Pool CAS (/var/lib/meshfs)',
+          code: `/var/lib/meshfs/
+├── chunks/               # Chunks immuables 4 Mo hachés en BLAKE3
 │   ├── 0a4f89...7b2.chunk
 │   ├── c9e31b...a10.chunk
 │   └── ffe812...044.chunk
@@ -221,7 +221,7 @@ export const meshfsContent = {
 meshfs-p2p write <source_path> <relative_volume_key>
 
 # Lecture déterministe par racine Merkle
-meshfs-p2p read <merkle_root_sha256> <destination_path>
+meshfs-p2p read <merkle_root_blake3> <destination_path>
 
 # Synchronisation gossip LAN sans coordinateur
 meshfs-p2p sync`,
@@ -233,7 +233,7 @@ meshfs-p2p sync`,
         human: {
           lead: 'Nous n’avons pas cherché à créer un système de fichiers distribué ex nihilo. Nous avons simplement cherché à résoudre un problème concret : fabriquer la sauvegarde de conteneurs la plus indestructible au monde.',
           story:
-            'Au départ, il y avait PMBS (PodMesh Backup Server) : pour sauvegarder nos conteneurs sans saturer les disques, nous devions découper les disques en blocs de 4 Mo dédupliqués, hachés en SHA-256 et scellés dans un arbre de Merkle. Une fois ce moteur achevé, l’illumination Shaper OS est apparue : un backup immuable découpé en blocs de 4 Mo, si on le branche sur du P2P et une couche de montage FUSE... ce n’est plus une archive morte : c’est un système de fichiers distribué vivant !',
+            'Au départ, il y avait PMBS (PodMesh Backup Server) : pour sauvegarder nos conteneurs sans saturer les disques, nous devions découper les disques en blocs de 4 Mo dédupliqués, hachés en BLAKE3 et scellés dans un arbre de Merkle. Une fois ce moteur achevé, l’illumination Shaper OS est apparue : un backup immuable découpé en blocs de 4 Mo, si on le branche sur du P2P et une couche de montage FUSE... ce n’est plus une archive morte : c’est un système de fichiers distribué vivant !',
         },
         geek: {
           lead: 'PMBS et MeshFS partagent la même structure de données fondamentale. Aucun besoin de conversion ou de re-chunking.',
@@ -247,7 +247,7 @@ meshfs-p2p sync`,
           contract: `{
   "subsystem": "MeshFS <-> PMBS Invariance",
   "block_size_bytes": 4194304,
-  "hash_algorithm": "SHA-256",
+  "hash_algorithm": "BLAKE3",
   "metadata_format": "JSON-Merkle-v2",
   "atomic_swap": "POSIX renameat2(RENAME_NOREPLACE)",
   "posix_metadata": ["mode", "uid", "gid", "mtime", "size"]
@@ -263,7 +263,7 @@ meshfs-p2p sync`,
             title: '1. Montage Workstation & LXC (FUSE)',
             human: 'Montez votre stockage distribué dans votre répertoire personnel (~/meshfs-live) en simple utilisateur, sans mot de passe root. Accédez à vos fichiers à pleine vitesse réseau.',
             geek: 'Montage FUSE 3 en userland avec pool quota strict de 5,00 Mo. Débit mesuré : 106 Mo/s en écriture synchrone avec fdatasync, 97,5 Mo/s en lecture.',
-            agent: 'Commande : meshfs mount --mountpoint ~/meshfs-live --data-dir /var/lib/meshfs-pool/data. Quota ENOSPC garanti fail-closed.',
+            agent: 'Commande : meshfs mount --mountpoint ~/meshfs-live --data-dir /var/lib/meshfs/data. Quota ENOSPC garanti fail-closed.',
           },
           {
             id: 'proxmox',
@@ -277,7 +277,7 @@ meshfs-p2p sync`,
             title: '3. Volumes Partagés Podman Rootless',
             human: 'Partagez des volumes de données entre conteneurs Podman sur plusieurs serveurs sans avoir à synchroniser des fichiers manuellement.',
             geek: 'Montage direct du pool CAS en lecture/écriture ou injection de répertoires matérialisés via meshfs-p2p export. Intégration transparente avec le driver Btrfs de Podman.',
-            agent: 'podman run --rm -v /var/lib/meshfs-pool/data:/data:rw alpine sh. Confinement strict userns + cgroups v2.',
+            agent: 'podman run --rm -v /var/lib/meshfs/data:/data:rw alpine sh. Confinement strict userns + cgroups v2.',
           },
         ],
       },

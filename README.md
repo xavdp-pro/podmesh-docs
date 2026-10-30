@@ -2,7 +2,7 @@
 
 **Official Public Documentation Portal & Didactic Simulator (`https://podmesh.xavdp.pro`)**
 
-`podmesh-docs` is the public documentation and interactive architectural showcase for **PodMesh** (the sovereign distributed container, Btrfs `@spaces`, and MeshFS orchestration engine). Transitioning from the experimental v2.3.0 demonstrator, **v2.4.1** showcases the universal multi-platform architecture (Proxmox VE + TrueNAS + Synology + Windows + Podman), FastCDC / BLAKE3 atomic chunk ingestion, and WireGuard Dual-Hub resilience without SPOF.
+`podmesh-docs` is the public documentation and interactive architectural showcase for **PodMesh** (the sovereign distributed container, Btrfs `@spaces`, and MeshFS orchestration engine). Transitioning from the experimental v2.4.1 demonstrator, **v2.4.1** showcases the universal multi-platform architecture (Proxmox VE + TrueNAS + Synology + Windows + Podman), FastCDC / BLAKE3 atomic chunk ingestion, and WireGuard Dual-Hub resilience without SPOF.
 
 ---
 
@@ -50,7 +50,7 @@ npm start
 - **[xavdp-pro/podmesh](https://github.com/xavdp-pro/podmesh)** — The core Rust bare-metal daemon and CLI (`podmesh-daemon`).
 - **[INTENT.md](INTENT.md)** — Purpose and public sandbox separation rationale.
 - **[LAW.md](LAW.md)** — Read-only sandbox, RFC 5737 hygiene, and Rule 38/0G simulation honesty invariants.
-- **[LINEAGE.md](LINEAGE.md)** — Evolution and v2.3.0 SHAPER PHOENIX separation record.
+- **[LINEAGE.md](LINEAGE.md)** — Evolution and v2.4.1 SHAPER PHOENIX separation record.
 - **[AGENTS.md](AGENTS.md)** — Collaboration rules for AI agents.
 - **[DEDICATION.md](DEDICATION.md)** — Dedication by Xavier de Poorter.
 - **[LICENSE](LICENSE)** — Apache License 2.0.

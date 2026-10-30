@@ -74,7 +74,7 @@ export const guideContent = {
           "Consulter l’état des nœuds et la progression de la réplication.",
           "Lire le fichier depuis un autre nœud et vérifier son empreinte après récupération."
         ],
-        "technical": "MeshFS découpe les fichiers en blocs de 4 Mio, identifiés par leur empreinte SHA-256 : c’est le stockage adressé par le contenu, ou CAS. Un arbre de Merkle décrit les fichiers et leurs changements. Le mode distribué utilise un journal répliqué et une majorité pour ordonner les écritures ; le rattrapage passe par ce journal ou un snapshot. Les transferts de grandes images passent par la CLI ou l’API en flux. L’accès en direct aux disques d’une VM en exécution nécessite aussi une couche de montage ou de stockage bloc.",
+        "technical": "MeshFS découpe les fichiers en blocs de 4 Mio, identifiés par leur empreinte BLAKE3 : c’est le stockage adressé par le contenu, ou CAS. Un arbre de Merkle décrit les fichiers et leurs changements. Le mode distribué utilise un journal répliqué et une majorité pour ordonner les écritures ; le rattrapage passe par ce journal ou un snapshot. Les transferts de grandes images passent par la CLI ou l’API en flux. L’accès en direct aux disques d’une VM en exécution nécessite aussi une couche de montage ou de stockage bloc.",
         "doc": "crates/meshfs",
         "docLabel": "Voir le code source de MeshFS"
       },
@@ -245,7 +245,7 @@ export const guideContent = {
           "Inspect node state and replication progress.",
           "Read the file through another node and check its fingerprint after recovery."
         ],
-        "technical": "MeshFS splits files into 4 MiB blocks identified by SHA-256 fingerprints: content-addressed storage, or CAS. A Merkle tree describes files and changes. Distributed mode uses a replicated log and a majority to order writes; returning nodes catch up through that log or a snapshot. Large images transfer through the streaming CLI or API. Direct disk access for a running VM also requires a filesystem mount or block-storage layer.",
+        "technical": "MeshFS splits files into 4 MiB blocks identified by BLAKE3 fingerprints: content-addressed storage, or CAS. A Merkle tree describes files and changes. Distributed mode uses a replicated log and a majority to order writes; returning nodes catch up through that log or a snapshot. Large images transfer through the streaming CLI or API. Direct disk access for a running VM also requires a filesystem mount or block-storage layer.",
         "doc": "crates/meshfs",
         "docLabel": "Read the MeshFS source code"
       },
@@ -416,7 +416,7 @@ export const guideContent = {
           "Consultar el estado de los nodos y el progreso de replicación.",
           "Leer el archivo desde otro nodo y comprobar su huella después de recuperarlo."
         ],
-        "technical": "MeshFS divide los archivos en bloques de 4 MiB identificados por huellas SHA-256: almacenamiento direccionado por contenido, o CAS. Un árbol de Merkle describe los archivos y sus cambios. El modo distribuido usa un registro replicado y una mayoría para ordenar escrituras; el nodo recupera cambios mediante ese registro o una instantánea. Las imágenes grandes se transfieren mediante la CLI o API en flujo. El acceso directo al disco de una VM en ejecución también necesita una capa de montaje o almacenamiento de bloques.",
+        "technical": "MeshFS divide los archivos en bloques de 4 MiB identificados por huellas BLAKE3: almacenamiento direccionado por contenido, o CAS. Un árbol de Merkle describe los archivos y sus cambios. El modo distribuido usa un registro replicado y una mayoría para ordenar escrituras; el nodo recupera cambios mediante ese registro o una instantánea. Las imágenes grandes se transfieren mediante la CLI o API en flujo. El acceso directo al disco de una VM en ejecución también necesita una capa de montaje o almacenamiento de bloques.",
         "doc": "crates/meshfs",
         "docLabel": "Ver el código fuente de MeshFS"
       },

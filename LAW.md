@@ -1,4 +1,4 @@
-# Law — PodMesh Documentation & Didactic Showcase Invariants (`podmesh-docs` v2.3.0)
+# Law — PodMesh Documentation & Didactic Showcase Invariants (`podmesh-docs` v2.4.1)
 
 Status: Binding public diffusion law under SHAPER PHOENIX, 2026-10-27.
 

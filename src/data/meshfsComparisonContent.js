@@ -26,7 +26,7 @@ export const meshfsComparisonContent = {
     },
     unificationBanner: {
       kicker: 'La Singularité Architecturale de MeshFS v2.3.0',
-      title: '1 Pool CAS Unique (FastCDC 4 Mio SHA-256) = 6 Usages Unifiés en Zéro-Copie',
+      title: '1 Pool CAS Unique (FastCDC 4 Mio BLAKE3) = 6 Usages Unifiés en Zéro-Copie',
       desc: 'Là où l’industrie vous oblige à empiler 4 ou 5 logiciels incompatibles qui dupliquent vos octets sur le disque et saturent votre RAM, MeshFS v2.3.0 partage la même brique mathématique immuable entre tous les protocoles :',
       pillars: [
         {
@@ -89,10 +89,10 @@ export const meshfsComparisonContent = {
           isMeshfs: true,
           family: 'Référence Souveraine (Tout-en-un)',
           ram: 'Rust · ~12 Mo RAM',
-          dedup: '✅ Oui (4 Mio SHA-256 inter-protocoles)',
+          dedup: '✅ Oui (4 Mio BLAKE3 inter-protocoles)',
           mounts: '✅ FUSE + Plugin PVE + Socket Podman',
           s3: '✅ Oui (:9000, WORM, Multipart O(1), 507)',
-          heal: '✅ Auto-repair P2P sur lecture SHA-256',
+          heal: '✅ Auto-repair P2P sur lecture BLAKE3',
           sovereignty: '✅ 100% On-Prem · 0 SPOF · WireGuard',
         },
         {
@@ -139,7 +139,7 @@ export const meshfsComparisonContent = {
           name: 'IPFS (Kubo / Cluster)',
           family: 'Cousin CAS Merkle P2P (74%)',
           ram: 'Go · 300 Mo à 2 Go RAM',
-          dedup: '✅ Oui (Merkle DAG / CID SHA-256)',
+          dedup: '✅ Oui (Merkle DAG / CID BLAKE3)',
           mounts: '⚠️ FUSE lecture seule / lent en écriture',
           s3: '❌ Non natif (nécessite passerelle externe)',
           heal: '✅ Échange Bitswap P2P',
@@ -179,7 +179,7 @@ export const meshfsComparisonContent = {
           name: 'Proxmox Backup Server (PBS)',
           family: 'Parent Génétique CAS 4 Mio (85%)',
           ram: 'Rust · 200 Mo à 2 Go RAM',
-          dedup: '✅ Oui (Chunks 4 Mio SHA-256 .fidx/.didx)',
+          dedup: '✅ Oui (Chunks 4 Mio BLAKE3 .fidx/.didx)',
           mounts: '❌ Coffre froid (Pas de stockage VM vif ni Podman)',
           s3: '❌ Non (Pas de serveur S3)',
           heal: '⚠️ Verify job local (Pas de réparation P2P)',
@@ -241,7 +241,7 @@ export const meshfsComparisonContent = {
           human:
             'Ceph, c’est un semi-remorque de 40 tonnes : génial pour Amazon ou le CERN, mais ruineux et ingérable pour 2 ou 5 serveurs. MeshFS vous donne le partage de disques Proxmox, les dossiers partagés et le S3 sans l’usine à gaz.',
           geek:
-            'Ceph sépare RADOS, RBD, CephFS et RGW sans déduplication globale par contenu (SHA-256). En cas de coupure électrique sur un cluster 3 nœuds, la perte du quorum MON/Paxos bloque les I/O. MeshFS utilise des chunks CAS 4 Mio immuables + bail Single-Writer à epoch monotone : zéro quorum lourd, réparation P2P directe en HTTP/UDS.',
+            'Ceph sépare RADOS, RBD, CephFS et RGW sans déduplication globale par contenu (BLAKE3). En cas de coupure électrique sur un cluster 3 nœuds, la perte du quorum MON/Paxos bloque les I/O. MeshFS utilise des chunks CAS 4 Mio immuables + bail Single-Writer à epoch monotone : zéro quorum lourd, réparation P2P directe en HTTP/UDS.',
           agent:
             'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified BLAKE3 CAS across FUSE, PVE, Podman, S3, and PMBS.',
         },
@@ -260,7 +260,7 @@ export const meshfsComparisonContent = {
           geek:
             'Cubbit DS3 repose sur un plan de contrôle centralisé SaaS (Nexus) et expose uniquement une passerelle S3. MeshFS-S3 partage directement `/var/lib/meshfs/cas` avec le démon POSIX/PVE/Podman, répare les chunks corrompus en P2P direct (`GET /cas/chunk/:hash`) sur WireGuard, et applique le Garbage Collector universel `meshfs-s3 gc`.',
           agent:
-            'INVARIANT [CUBBIT-VS-MESHFS]: Cubbit depends on external SaaS control-plane (violates GEM-001 / Sovereign Autonomy). MeshFS-S3 runs 100% air-gapped or over WireGuard with shared local CAS and automatic SHA-256 peer self-healing.',
+            'INVARIANT [CUBBIT-VS-MESHFS]: Cubbit depends on external SaaS control-plane (violates GEM-001 / Sovereign Autonomy). MeshFS-S3 runs 100% air-gapped or over WireGuard with shared local CAS and automatic BLAKE3 peer self-healing.',
         },
         {
           id: 'pbs',
@@ -269,7 +269,7 @@ export const meshfsComparisonContent = {
           proximity: '85% · Le Parent Génétique Direct',
           badge: 'Ancêtre Spirituel CAS',
           whatItDoesWell:
-            'L’inventeur brillant en Rust du découpage en chunks de 4 Mio hachés en SHA-256 avec index Merkle (.fidx / .didx) pour sauvegarder les VMs Proxmox.',
+            'L’inventeur brillant en Rust du découpage en chunks de 4 Mio hachés en BLAKE3 avec index Merkle (.fidx / .didx) pour sauvegarder les VMs Proxmox.',
           whereMeshFsWins:
             'PBS est un coffre-fort froid : ses chunks dorment sur le disque en attendant une restauration. MeshFS est né d’une révélation : en branchant ces mêmes chunks de 4 Mio sur un moteur P2P, un pilote FUSE, un plugin Podman et une passerelle S3, l’archive froide devient un système de fichiers distribué vivant ! Et grâce à PMBS, la sauvegarde devient instantanée (Zero-Transit Backup).',
           human:
@@ -277,7 +277,7 @@ export const meshfsComparisonContent = {
           geek:
             'PBS impose du HTTP/2 + TLS sur TCP `:8007` même en local et ne propose ni stockage primaire VM, ni S3, ni plugin Docker/Podman, ni auto-guérison P2P entre nœuds. MeshFS + PMBS partagent `/var/lib/meshfs/cas` via socket Unix (`/var/lib/pmbs/pmbs.sock`) : une VM sur MeshFS est sauvegardée dans PMBS en O(1) sans recopier un seul chunk déjà existant.',
           agent:
-            'INVARIANT [PBS-VS-MESHFS]: PBS is cold-storage only. MeshFS + PMBS unify live I/O and immutable backup over the exact same SHA-256 chunk store, reducing backup network transit to 0 bytes for unchanged chunks.',
+            'INVARIANT [PBS-VS-MESHFS]: PBS is cold-storage only. MeshFS + PMBS unify live I/O and immutable backup over the exact same BLAKE3 chunk store, reducing backup network transit to 0 bytes for unchanged chunks.',
         },
         {
           id: 'minio',
@@ -294,7 +294,7 @@ export const meshfsComparisonContent = {
           geek:
             'Sur notre qualification Stage 12 (`10.10.10.210`), `podmesh-meshfs-s3` atteint immédiatement un ratio de déduplication mesuré de `2.33x` sur `/metrics`, applique les quotas stricts (`HTTP 507 QuotaExceeded`), le verrouillage WORM (`Object Lock`), le Multipart Upload en $\\mathcal{O}(1)$ par concaténation de listes de hashes (zéro recopie disque !), et le GC universel.',
           agent:
-            'INVARIANT [MINIO-VS-MESHFS-S3]: MinIO CompleteMultipartUpload is O(N) disk I/O with zero cross-object deduplication. MeshFS-S3 CompleteMultipartUpload is O(1) manifest seal with global 4 MiB SHA-256 deduplication.',
+            'INVARIANT [MINIO-VS-MESHFS-S3]: MinIO CompleteMultipartUpload is O(N) disk I/O with zero cross-object deduplication. MeshFS-S3 CompleteMultipartUpload is O(1) manifest seal with global 4 MiB BLAKE3 deduplication.',
         },
         {
           id: 'garage',
@@ -373,7 +373,7 @@ export const meshfsComparisonContent = {
           whatItDoesWell:
             'Outils remarquables et très populaires pour sauvegarder un serveur avec découpage CDC (Content-Defined Chunking) et chiffrement vers un dépôt distant ou S3.',
           whereMeshFsWins:
-            'Borg, Restic et Kopia sont des outils de sauvegarde ponctuels : quand vous lancez un backup, ils doivent relire, hacher et découper vos fichiers avant de les envoyer sur le réseau. Dans l’écosystème MeshFS + PMBS, vos volumes de production vivent DÉJÀ sous forme de chunks CAS 4 Mio SHA-256 ! La sauvegarde est donc instantanée et locale, et par ailleurs `podmesh-meshfs-s3` peut aussi servir de cible S3 dédupliquée et verrouillée WORM pour vos anciens scripts Restic/Borg !',
+            'Borg, Restic et Kopia sont des outils de sauvegarde ponctuels : quand vous lancez un backup, ils doivent relire, hacher et découper vos fichiers avant de les envoyer sur le réseau. Dans l’écosystème MeshFS + PMBS, vos volumes de production vivent DÉJÀ sous forme de chunks CAS 4 Mio BLAKE3 ! La sauvegarde est donc instantanée et locale, et par ailleurs `podmesh-meshfs-s3` peut aussi servir de cible S3 dédupliquée et verrouillée WORM pour vos anciens scripts Restic/Borg !',
           human:
             'Borg et Restic sont d’excellents outils de sauvegarde, mais ils travaillent « après coup ». Avec MeshFS, vos données sont déjà découpées et vérifiées en permanence pendant que vous travaillez. Et mieux encore : vous pouvez brancher Restic ou Borg sur MeshFS-S3 !',
           geek:
@@ -394,7 +394,7 @@ export const meshfsComparisonContent = {
           human:
             'Syncthing est parfait pour synchroniser ses photos entre un PC et un téléphone, et Btrfs est le gardien idéal d’un disque dur unique. MeshFS prend le relais dès que vous voulez unir plusieurs serveurs, héberger des VMs Proxmox, des conteneurs Podman et du S3 sans dupliquer inutilement vos données.',
           geek:
-            'Dans l’architecture Shaper OS (et `podmesh-installer`), Btrfs gère les sous-volumes locaux (`@meshfs_cas`, `@pmbs_backups`) avec checksums matériels NVMe, tandis que MeshFS apporte par-dessus la fédération P2P WireGuard, la déduplication CAS SHA-256 inter-nœuds, le VolumeDriver Podman et le serveur S3 WORM sans aucune base Redis/SQL externe.',
+            'Dans l’architecture Shaper OS (et `podmesh-installer`), Btrfs gère les sous-volumes locaux (`@meshfs_cas`, `@pmbs_backups`) avec checksums matériels NVMe, tandis que MeshFS apporte par-dessus la fédération P2P WireGuard, la déduplication CAS BLAKE3 inter-nœuds, le VolumeDriver Podman et le serveur S3 WORM sans aucune base Redis/SQL externe.',
           agent:
             'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed BLAKE3 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
         },
@@ -499,10 +499,10 @@ export const meshfsComparisonContent = {
           isMeshfs: true,
           family: 'Sovereign Reference (All-in-One)',
           ram: 'Rust · ~12 MB RAM',
-          dedup: '✅ Yes (4 MiB SHA-256 cross-protocol)',
+          dedup: '✅ Yes (4 MiB BLAKE3 cross-protocol)',
           mounts: '✅ FUSE + PVE Plugin + Podman Socket',
           s3: '✅ Yes (:9000, WORM, O(1) Multipart, 507)',
-          heal: '✅ Auto-repair from P2P peers on SHA-256 read',
+          heal: '✅ Auto-repair from P2P peers on BLAKE3 read',
           sovereignty: '✅ 100% On-Prem · 0 SPOF · WireGuard',
         },
         {
@@ -549,7 +549,7 @@ export const meshfsComparisonContent = {
           name: 'IPFS (Kubo / Cluster)',
           family: 'Merkle CAS P2P Cousin (74%)',
           ram: 'Go · 300 MB to 2 GB RAM',
-          dedup: '✅ Yes (Merkle DAG / SHA-256 CIDs)',
+          dedup: '✅ Yes (Merkle DAG / BLAKE3 CIDs)',
           mounts: '⚠️ Read-heavy FUSE / slow mutable writes',
           s3: '❌ Not native (requires external gateway)',
           heal: '✅ Bitswap P2P block exchange',
@@ -589,7 +589,7 @@ export const meshfsComparisonContent = {
           name: 'Proxmox Backup Server (PBS)',
           family: 'Direct Genetic Parent 4 MiB CAS (85%)',
           ram: 'Rust · 200 MB to 2 GB RAM',
-          dedup: '✅ Yes (4 MiB SHA-256 chunks .fidx/.didx)',
+          dedup: '✅ Yes (4 MiB BLAKE3 chunks .fidx/.didx)',
           mounts: '❌ Cold vault only (No live VM or Podman storage)',
           s3: '❌ No (No S3 server)',
           heal: '⚠️ Local verify job (No P2P peer repair)',
@@ -651,7 +651,7 @@ export const meshfsComparisonContent = {
           human:
             'Ceph is a 40-ton freight train: great for hyperscalers, painful for 2 to 5 servers. MeshFS gives you Proxmox shared disks, POSIX folders, and S3 without the operational bloat.',
           geek:
-            'Ceph separates RADOS, RBD, CephFS, and RGW without content-addressed SHA-256 deduplication. MeshFS uses immutable 4 MiB CAS chunks + monotonic epoch Single-Writer leases: zero heavy Paxos quorum, direct P2P repair over HTTP/UDS.',
+            'Ceph separates RADOS, RBD, CephFS, and RGW without content-addressed BLAKE3 deduplication. MeshFS uses immutable 4 MiB CAS chunks + monotonic epoch Single-Writer leases: zero heavy Paxos quorum, direct P2P repair over HTTP/UDS.',
           agent:
             'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified BLAKE3 CAS across FUSE, PVE, Podman, S3, and PMBS.',
         },
@@ -670,7 +670,7 @@ export const meshfsComparisonContent = {
           geek:
             'Cubbit DS3 relies on a SaaS coordinator (Nexus) and only exposes S3. MeshFS-S3 directly shares `/var/lib/meshfs/cas` with the POSIX/PVE/Podman daemon, heals corrupted chunks peer-to-peer (`GET /cas/chunk/:hash`), and runs universal Mark-and-Sweep GC.',
           agent:
-            'INVARIANT [CUBBIT-VS-MESHFS]: Cubbit depends on external SaaS control-plane (violates GEM-001). MeshFS-S3 runs 100% air-gapped or over WireGuard with shared local CAS and automatic SHA-256 peer self-healing.',
+            'INVARIANT [CUBBIT-VS-MESHFS]: Cubbit depends on external SaaS control-plane (violates GEM-001). MeshFS-S3 runs 100% air-gapped or over WireGuard with shared local CAS and automatic BLAKE3 peer self-healing.',
         },
         {
           id: 'pbs',
@@ -679,7 +679,7 @@ export const meshfsComparisonContent = {
           proximity: '85% · The Direct Genetic Parent',
           badge: 'Spiritual CAS Ancestor',
           whatItDoesWell:
-            'Brilliant Rust implementation of 4 MiB SHA-256 chunking and Merkle indexes (.fidx / .didx) for Proxmox VM backups.',
+            'Brilliant Rust implementation of 4 MiB BLAKE3 chunking and Merkle indexes (.fidx / .didx) for Proxmox VM backups.',
           whereMeshFsWins:
             'PBS is a cold vault: its chunks sit idle waiting for a restore. MeshFS was born from a simple realization: by wiring those exact 4 MiB chunks to a P2P gossip engine, a FUSE driver, a Podman VolumePlugin, and an S3 gateway, cold backup transforms into a live distributed filesystem! And with PMBS, backups become instantaneous (Zero-Transit Backup).',
           human:
@@ -687,7 +687,7 @@ export const meshfsComparisonContent = {
           geek:
             'PBS forces HTTP/2 + TLS over TCP `:8007` even locally and offers no primary VM storage, no S3, no Docker/Podman plugin, and no P2P self-healing. MeshFS + PMBS share `/var/lib/meshfs/cas` via Unix socket (`/var/lib/pmbs/pmbs.sock`): backing up a MeshFS volume into PMBS is O(1) with zero chunk copy.',
           agent:
-            'INVARIANT [PBS-VS-MESHFS]: PBS is cold-storage only. MeshFS + PMBS unify live I/O and immutable backup over the exact same SHA-256 chunk store, reducing backup network transit to 0 bytes for unchanged chunks.',
+            'INVARIANT [PBS-VS-MESHFS]: PBS is cold-storage only. MeshFS + PMBS unify live I/O and immutable backup over the exact same BLAKE3 chunk store, reducing backup network transit to 0 bytes for unchanged chunks.',
         },
         {
           id: 'minio',
@@ -704,7 +704,7 @@ export const meshfsComparisonContent = {
           geek:
             'In Stage 12 qualification (`10.10.10.210`), `podmesh-meshfs-s3` delivered a verified `2.33x` deduplication ratio on `/metrics`, strict bucket quotas (`HTTP 507 QuotaExceeded`), WORM Object Lock, O(1) Multipart Upload via hash-list sealing (zero disk copy!), and universal CAS GC.',
           agent:
-            'INVARIANT [MINIO-VS-MESHFS-S3]: MinIO CompleteMultipartUpload is O(N) disk I/O with zero cross-object deduplication. MeshFS-S3 CompleteMultipartUpload is O(1) manifest seal with global 4 MiB SHA-256 deduplication.',
+            'INVARIANT [MINIO-VS-MESHFS-S3]: MinIO CompleteMultipartUpload is O(N) disk I/O with zero cross-object deduplication. MeshFS-S3 CompleteMultipartUpload is O(1) manifest seal with global 4 MiB BLAKE3 deduplication.',
         },
         {
           id: 'garage',
@@ -804,7 +804,7 @@ export const meshfsComparisonContent = {
           human:
             'Syncthing is great for syncing laptop folders, and Btrfs is the ideal guardian of a single local drive. MeshFS steps in when you want to unite multiple servers, Proxmox VMs, Podman containers, and S3 without duplicating data.',
           geek:
-            'In Shaper OS, Btrfs manages local NVMe subvolumes (`@meshfs_cas`, `@pmbs_backups`), while MeshFS layers WireGuard P2P federation, cross-node SHA-256 deduplication, the Podman VolumeDriver, and the WORM S3 gateway with zero external Redis/SQL dependencies.',
+            'In Shaper OS, Btrfs manages local NVMe subvolumes (`@meshfs_cas`, `@pmbs_backups`), while MeshFS layers WireGuard P2P federation, cross-node BLAKE3 deduplication, the Podman VolumeDriver, and the WORM S3 gateway with zero external Redis/SQL dependencies.',
           agent:
             'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed BLAKE3 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
         },
@@ -846,7 +846,7 @@ export const meshfsComparisonContent = {
     },
     unificationBanner: {
       kicker: 'La Singularidad Arquitectónica de MeshFS v2.3.0',
-      title: '1 Pool CAS Único (FastCDC 4 MiB SHA-256) = 6 Usos Unificados Sin Copia',
+      title: '1 Pool CAS Único (FastCDC 4 MiB BLAKE3) = 6 Usos Unificados Sin Copia',
       desc: 'Donde la industria obliga a apilar 4 o 5 programas incompatibles que duplican tus bytes y agotan tu RAM, MeshFS v2.3.0 comparte el mismo bloque criptográfico inmutable entre todos los protocolos:',
       pillars: [
         {
@@ -909,10 +909,10 @@ export const meshfsComparisonContent = {
           isMeshfs: true,
           family: 'Referencia Soberana (Todo en Uno)',
           ram: 'Rust · ~12 MB RAM',
-          dedup: '✅ Sí (4 MiB SHA-256 multi-protocolo)',
+          dedup: '✅ Sí (4 MiB BLAKE3 multi-protocolo)',
           mounts: '✅ FUSE + Plugin PVE + Socket Podman',
           s3: '✅ Sí (:9000, WORM, Multipart O(1), 507)',
-          heal: '✅ Auto-reparación P2P al leer SHA-256',
+          heal: '✅ Auto-reparación P2P al leer BLAKE3',
           sovereignty: '✅ 100% On-Prem · 0 SPOF · WireGuard',
         },
         {
@@ -959,7 +959,7 @@ export const meshfsComparisonContent = {
           name: 'IPFS (Kubo / Cluster)',
           family: 'Primo CAS Merkle P2P (74%)',
           ram: 'Go · 300 MB a 2 GB RAM',
-          dedup: '✅ Sí (Merkle DAG / CID SHA-256)',
+          dedup: '✅ Sí (Merkle DAG / CID BLAKE3)',
           mounts: '⚠️ FUSE lectura / lento en escritura mutable',
           s3: '❌ No nativo (requiere pasarela externa)',
           heal: '✅ Intercambio Bitswap P2P',
@@ -999,7 +999,7 @@ export const meshfsComparisonContent = {
           name: 'Proxmox Backup Server (PBS)',
           family: 'Padre Genético CAS 4 MiB (85%)',
           ram: 'Rust · 200 MB a 2 GB RAM',
-          dedup: '✅ Sí (Chunks 4 MiB SHA-256 .fidx/.didx)',
+          dedup: '✅ Sí (Chunks 4 MiB BLAKE3 .fidx/.didx)',
           mounts: '❌ Bóveda fría (Sin almacenamiento VM vivo ni Podman)',
           s3: '❌ No (Sin servidor S3)',
           heal: '⚠️ Verify local (Sin reparación P2P)',
@@ -1061,7 +1061,7 @@ export const meshfsComparisonContent = {
           human:
             'Ceph es un camión de 40 toneladas: genial para gigantes cloud, pero pesado para 2 a 5 servidores. MeshFS te da discos compartidos Proxmox, carpetas POSIX y S3 sin complejidad.',
           geek:
-            'Ceph separa RADOS, RBD, CephFS y RGW sin deduplicación global SHA-256. MeshFS usa bloques CAS inmutables de 4 MiB + arrendamiento Single-Writer con época monótona y reparación P2P directa.',
+            'Ceph separa RADOS, RBD, CephFS y RGW sin deduplicación global BLAKE3. MeshFS usa bloques CAS inmutables de 4 MiB + arrendamiento Single-Writer con época monótona y reparación P2P directa.',
           agent:
             'INVARIANT [CEPH-VS-MESHFS]: Ceph requires Paxos quorum (2n+1 MONs) and O(N) PG scrubbing. MeshFS enforces O(1) Merkle root verification, <15 MB RSS footprint, and unified BLAKE3 CAS across FUSE, PVE, Podman, S3, and PMBS.',
         },
@@ -1080,7 +1080,7 @@ export const meshfsComparisonContent = {
           geek:
             'Cubbit DS3 depende de un plano de control SaaS (Nexus) y solo expone S3. MeshFS-S3 comparte directamente `/var/lib/meshfs/cas`, repara bloques corruptos por P2P (`GET /cas/chunk/:hash`) y aplica el recolector de basura universal `meshfs-s3 gc`.',
           agent:
-            'INVARIANT [CUBBIT-VS-MESHFS]: Cubbit depends on external SaaS control-plane (violates GEM-001). MeshFS-S3 runs 100% air-gapped or over WireGuard with shared local CAS and automatic SHA-256 peer self-healing.',
+            'INVARIANT [CUBBIT-VS-MESHFS]: Cubbit depends on external SaaS control-plane (violates GEM-001). MeshFS-S3 runs 100% air-gapped or over WireGuard with shared local CAS and automatic BLAKE3 peer self-healing.',
         },
         {
           id: 'pbs',
@@ -1089,7 +1089,7 @@ export const meshfsComparisonContent = {
           proximity: '85% · El Padre Genético Directo',
           badge: 'Ancestro Espiritual CAS',
           whatItDoesWell:
-            'Brillante implementación en Rust de bloques de 4 MiB SHA-256 e índices Merkle (.fidx / .didx) para copias de VMs Proxmox.',
+            'Brillante implementación en Rust de bloques de 4 MiB BLAKE3 e índices Merkle (.fidx / .didx) para copias de VMs Proxmox.',
           whereMeshFsWins:
             'PBS es una bóveda fría: sus bloques duermen esperando una restauración. MeshFS nació al conectar esos mismos bloques de 4 MiB a un motor P2P, un controlador FUSE, un plugin Podman y una pasarela S3: ¡el backup frío se convierte en un sistema de archivos distribuido vivo!',
           human:
@@ -1097,7 +1097,7 @@ export const meshfsComparisonContent = {
           geek:
             'PBS impone HTTP/2 + TLS sobre TCP `:8007` incluso en local y no ofrece almacenamiento VM primario, ni S3, ni plugin Podman, ni auto-curación P2P. MeshFS + PMBS comparten `/var/lib/meshfs/cas` por socket Unix: respaldar un volumen MeshFS en PMBS es O(1) sin copiar bloques existentes.',
           agent:
-            'INVARIANT [PBS-VS-MESHFS]: PBS is cold-storage only. MeshFS + PMBS unify live I/O and immutable backup over the exact same SHA-256 chunk store, reducing backup network transit to 0 bytes for unchanged chunks.',
+            'INVARIANT [PBS-VS-MESHFS]: PBS is cold-storage only. MeshFS + PMBS unify live I/O and immutable backup over the exact same BLAKE3 chunk store, reducing backup network transit to 0 bytes for unchanged chunks.',
         },
         {
           id: 'minio',
@@ -1114,7 +1114,7 @@ export const meshfsComparisonContent = {
           geek:
             'En la calificación Stage 12 (`10.10.10.210`), `podmesh-meshfs-s3` alcanzó un ratio de deduplicación de `2.33x` en `/metrics`, cuotas estrictas (`HTTP 507 QuotaExceeded`), bloqueo WORM, Multipart Upload en O(1) sin recopia en disco, y GC universal.',
           agent:
-            'INVARIANT [MINIO-VS-MESHFS-S3]: MinIO CompleteMultipartUpload is O(N) disk I/O with zero cross-object deduplication. MeshFS-S3 CompleteMultipartUpload is O(1) manifest seal with global 4 MiB SHA-256 deduplication.',
+            'INVARIANT [MINIO-VS-MESHFS-S3]: MinIO CompleteMultipartUpload is O(N) disk I/O with zero cross-object deduplication. MeshFS-S3 CompleteMultipartUpload is O(1) manifest seal with global 4 MiB BLAKE3 deduplication.',
         },
         {
           id: 'garage',
@@ -1193,7 +1193,7 @@ export const meshfsComparisonContent = {
           whatItDoesWell:
             'Excelentes herramientas CLI para copias de seguridad con Content-Defined Chunking (CDC) y cifrado.',
           whereMeshFsWins:
-            'Borg, Restic y Kopia solo trocean los datos cuando lanzas el backup. ¡En MeshFS + PMBS, tus volúmenes de producción YA viven como bloques CAS de 4 MiB SHA-256! Además, `podmesh-meshfs-s3` puede servir como destino S3 con bloqueo WORM para tus scripts Restic/Borg existentes.',
+            'Borg, Restic y Kopia solo trocean los datos cuando lanzas el backup. ¡En MeshFS + PMBS, tus volúmenes de producción YA viven como bloques CAS de 4 MiB BLAKE3! Además, `podmesh-meshfs-s3` puede servir como destino S3 con bloqueo WORM para tus scripts Restic/Borg existentes.',
           human:
             'Borg y Restic son grandes herramientas de backup, pero trabajan «a posteriori». Con MeshFS tus datos ya están deduplicados y verificados en vivo — ¡y además puedes conectar Restic o Borg a MeshFS-S3!',
           geek:
@@ -1214,7 +1214,7 @@ export const meshfsComparisonContent = {
           human:
             'Syncthing es genial para sincronizar carpetas entre ordenadores y Btrfs es el guardián ideal de un disco local. MeshFS entra en juego cuando quieres unir varios servidores, VMs Proxmox, contenedores Podman y S3 sin duplicar datos.',
           geek:
-            'En Shaper OS, Btrfs gestiona los subvolúmenes NVMe locales (`@meshfs_cas`, `@pmbs_backups`), mientras MeshFS añade encima la federación P2P WireGuard, deduplicación SHA-256 entre nodos, el VolumeDriver Podman y la pasarela S3 WORM sin bases Redis/SQL externas.',
+            'En Shaper OS, Btrfs gestiona los subvolúmenes NVMe locales (`@meshfs_cas`, `@pmbs_backups`), mientras MeshFS añade encima la federación P2P WireGuard, deduplicación BLAKE3 entre nodos, el VolumeDriver Podman y la pasarela S3 WORM sin bases Redis/SQL externas.',
           agent:
             'INVARIANT [LOCAL-COW-PLUS-MESHFS]: Btrfs provides local disk CoW invariance; MeshFS layers distributed BLAKE3 CAS, P2P self-healing, S3, and container/VM orchestration on top with zero external DB dependencies.',
         },
